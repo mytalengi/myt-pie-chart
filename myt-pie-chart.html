@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <script src="d3.js"></script>
+    <script src="myt-pie-chart.js"></script>
+    <style>
+    .arc text {
+      font: 10px sans-serif;
+      text-anchor: middle;
+    }
+
+    .arc path {
+      stroke: #fff;
+    }
+    </style>
+  </head>
+  <body>
+    <script>
+      var pie0 = new mytPieChart.newChart();
+      pie0.draw();
+      console.log("pie0.getWidth() -> " + pie0.getWidth());
+      console.log("pie0.getHeight() -> " + pie0.getHeight());
+      console.log("pie0.getData() -> ");
+      console.log(pie0.getData());
+
+      var pie1 = new mytPieChart.newChart([{name:"One",value:1},{name:"Two",value:2},{name:"Three",value:3}]);
+      console.log("pie1.getWidth() -> " + pie1.getWidth());
+      console.log("pie1.getHeight() -> " + pie1.getHeight());
+      console.log("pie1.getData() -> ");
+      console.log(pie1.getData());
+      pie1.draw();
+    </script>
+  </body>
+</html>
