@@ -21,7 +21,7 @@
     }]
   */
 
-  newChart: function(d, w, h){
+  newChart: function(d, w, h, c, i){
     var width = 350;
     var height = 200;
     var data = [{
@@ -37,18 +37,21 @@
       name: 'Youtube',
       value: 231
       }];
+    var container = 'body';
+    var id = "pie123";
 
     if(w) width = w;
     if(h) height = h;
     if(d) data = d;
+    if(c) container = c;
+    if(i) id = i;
 
     return {
-      // Default width
       width: this.width,
-      // Default height
       height: this.height,
-      // Default data
       data: this.data,
+      container: this.container,
+      id: this.id,
 
       getWidth: function(){
         return width;
@@ -95,9 +98,10 @@
           .sort(null)
           .value(function(d) { return d.value; });
 
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select(container).append("svg")
           .attr("width", width)
           .attr("height", height)
+          .attr("id", id)
           .append("g")
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
