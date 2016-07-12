@@ -11,29 +11,36 @@
     .arc path {
       stroke: #fff;
     }
+    .pie_toolTip {
+      float: right;
+      border: 1px solid black;
+      border-radius: 5px;
+      background-color: gray;
+      padding: 10px;
+    }
     </style>
   </head>
   <body>
+    <div id="testDiv" style="margin: 0 auto; width: 500px"></div>
     <script>
-      var pie0 = new mytPieChart.newChart(null, null, null, null, "testPie123");
+      var pie0 = new mytPieChart.newChart(null, null, null, "testDiv", "testPie123");
       pie0.draw();
       console.log("pie0.getWidth() -> " + pie0.getWidth());
       console.log("pie0.getHeight() -> " + pie0.getHeight());
       console.log("pie0.getData() -> ");
       console.log(pie0.getData());
 
-      var pie1 = new mytPieChart.newChart([{name:"One",value:1},{name:"Two",value:2},{name:"Three",value:3}]);
+      var pie1 = new mytPieChart.newChart([{name:"One",value:1},{name:"Two",value:2},{name:"Three",value:3}], null, null, null, null);
       console.log("pie1.getWidth() -> " + pie1.getWidth());
       console.log("pie1.getHeight() -> " + pie1.getHeight());
       console.log("pie1.getData() -> ");
       console.log(pie1.getData());
       pie1.draw();
 
-      mytPieChart.newChart(mytPieChart.generateTestData(9), 900, 900).draw();
-      mytPieChart.newChart(mytPieChart.generateTestData(29), 900, 900).draw();
-      mytPieChart.newChart(mytPieChart.generateTestData(59), 900, 900).draw();
-      mytPieChart.newChart(mytPieChart.generateTestData(79), 900, 900).draw();
-      mytPieChart.newChart(mytPieChart.generateTestData(99), 900, 900).draw();
+      console.log("Pie0 " + pie0.getWidth());
+      pie0.setWidth(200);
+      console.log("Pio0 " + pie0.getWidth());
+      console.log("Pie1 " + pie1.getWidth());
     </script>
   </body>
 </html>

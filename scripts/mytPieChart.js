@@ -37,20 +37,20 @@
       name: 'Youtube',
       value: 231
       }];
-    var container = 'body';
+    var containerId = 'body';
     var id = "pie123";
 
     if(w) width = w;
     if(h) height = h;
     if(d) data = d;
-    if(c) container = c;
+    if(c) containerId = c;
     if(i) id = i;
 
     return {
       width: this.width,
       height: this.height,
       data: this.data,
-      container: this.container,
+      containerId: "#" + this.containerId,
       id: this.id,
       chartExists: false,
 
@@ -124,12 +124,15 @@
           .sort(null)
           .value(function(d) { return d.value; });
 
-        var svg = d3.select(container).append("svg")
+        var svg = d3.select("#" + containerId).append("svg")
           .attr("width", width)
           .attr("height", height)
           .attr("id", id)
           .append("g")
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        d3.select("#" + containerId).append("div")
+          .attr("id", id + "_tooltip");
 
         var g = svg.selectAll(".arc")
           .data(pie(data))
@@ -137,10 +140,17 @@
           .attr("class", "arc")
           .on("mouseover", function(d) {
             d3.select(this).select("path").attr("r", 10).style("opacity", "1");
-            console.log(d.data.name + " - " + d.data.value);
+            d3.select("#" + id + "_tooltip")
+              .attr("class", "pie_toolTip")
+              .html(d.data.name + " - " + d.data.value);
+            console.log("#" + id + "_tooltip");
           })
           .on("mouseout", function(d){
             d3.select(this).select("path").attr("r", 5.5).style("opacity", "0.7");
+            d3.select("#" + id + "_tooltip")
+              .attr("class", "")
+              .html("");
+            console.log(id);
           });
 
         g.append("path")
