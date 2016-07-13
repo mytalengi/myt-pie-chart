@@ -30,6 +30,7 @@
 
       var pie0 = new mytPieChart.newChart(null, null, null, "testDiv", "testPie123");
       pie0.draw();
+      pie0.redraw();
       console.log("pie0.getWidth() -> " + pie0.getWidth());
       console.log("pie0.getHeight() -> " + pie0.getHeight());
       console.log("pie0.getData() -> ");
@@ -44,12 +45,39 @@
       console.log(pie1.getId());
       pie1.draw();
 
-      console.log("Pie0 " + pie0.getWidth());
-      pie0.setWidth(200);
-      console.log("Pio0 " + pie0.getWidth());
-      console.log("Pie1 " + pie1.getWidth());
-
-      var pie2 = mytPieChart.newChart(mytPieChart.generateTestData(20), 900, 600, 'testDiv3', 'testPie789');
+      var pie2 = mytPieChart.newChart();
+      var data = [{
+        name: "Example 1",
+        value: 123,
+        bgColor: 'blue',
+        color: 'red'
+      },{
+        name: "Example 2",
+        value: 246,
+        bgColor: 'yellow',
+        color: 'blue'
+      },{
+        name: "Example 3",
+        value: 492,
+        bgColor: 'green'
+        //color: 'black'
+      },{
+        name: "Example 4",
+        value: 984,
+        //bgColor: someRandomColor
+        color: 'red'
+      }];
+      // Bind data
+      pie2.setData(data);
+      // Set width
+      pie2.setWidth(700);
+      // Set height
+      pie2.setHeight(350);
+      // Set container id
+      pie2.setContainerId('testDiv3');
+      // Set svg id
+      pie2.setId('pie2id');
+      // Display the chart
       pie2.draw();
     </script>
   </body>

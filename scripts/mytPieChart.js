@@ -110,11 +110,6 @@
       },
 
       redraw: function(){
-        // Set radius to half of the smaller side
-        // to avoid 'out-of-bounds' issue
-        var radius = Math.min(width,height) / 2;
-
-        // TO DO
       },
 
       draw: function(){
@@ -129,7 +124,7 @@
         var tooltipId = Id + '-tooltip';
 
         if(this.chartExists){
-          redraw();
+          console.log("Unable to display this chart, it already exists.");
           return;
         }
 
@@ -158,86 +153,91 @@
           .append("g")
           .attr("transform", "translate(" + width / 3 + "," + height / 2 + ")");
 
-        console.log('#' + id);
-        console.log(d3.select('#' + id));
-        var bar = d3.select('#' + id)
+        var tooltipBar = d3.select('#' + id)
           .append('g')
           .attr('id', id + "_tooltip")
           .attr('opacity', 0)
           .attr('transform', "translate(" + width / 1.6 + "," + height / 10 + ")");
 
-        bar.append("rect")
+        tooltipBar.append("rect")
           .attr("width", width / 3)
           .attr("height", 35)
           .attr('fill', '#d9d9d9');
 
-        bar.append("text")
+        tooltipBar.append("text")
           .attr("x", 4)
           .attr("y", 10)
           .attr("dy", ".35em")
           .attr('font-size', 10)
-          .attr('id', id + '_tooltip'+ '_name')
-          .text("Name: " + "someName");
+          .attr('id', id + '_tooltip' + '_name');
 
-        bar.append("text")
+        tooltipBar.append("text")
           .attr("x", 4)
           .attr("y", 25)
           .attr("dy", ".35em")
           .attr('font-size', 10)
-          .attr('id', id + '_tooltip'+ '_value')
-          .text("Value: " + "someValue");
-
-        d3.select(containerid).append("div");
-        console.log("Adding div to " + d3.select(containerid)[0]);
-        console.log(containerid);
+          .attr('id', id + '_tooltip' + '_value');
 
         var g = svg.selectAll(".arc")
           .data(pie(data))
           .enter().append("g")
           .attr("class", "arc")
           .on("mouseover", function(d) {
-            /*d3.select(this).select("path").attr("r", 10).style("opacity", "1");
-            d3.select(containerid).select('div')
-              .attr("class", "pie_toolTip")
-              .html(d.data.name + " - " + d.data.value); */
+            // Display toolTip box
+            d3.select(Id + '_tooltip').attr('opacity', 1);
 
-            d3.select('#' + id + '_tooltip')
-              .attr('opacity', 1);
-            d3.select('#' + id + '_tooltip_name').text('Name: ' + d.data.name);
-            d3.select('#' + id + '_tooltip_value').text('Value: ' + d.data.value);
+            // Change toolTip color to slice color
+            if(d.data.bgColor)
+              d3.select(Id + '_tooltip > rect').attr('fill', d.data.bgColor);
+            else
+              d3.select(Id + '_tooltip > rect').attr('fill', color(d.data.name));
+
+            // Set toolTip data
+            d3.select(Id + '_tooltip_name')
+              .attr('fill', function(){
+                 if(d.data.color)
+                  return d.data.color;
+                else
+                  return 'black';
+               })
+              .text('Name: ' + d.data.name);
+            d3.select(Id + '_tooltip_value')
+              .attr('fill', function(){
+               if(d.data.color)
+                return d.data.color;
+              else
+                return 'black';
+              })
+              .text('Value: ' + d.data.value);
           })
           .on("mouseout", function(d){
-            /*d3.select(this).select("path").attr("r", 5.5).style("opacity", "0.7");
-            d3.select(containerid).select('div')
-              .attr("class", "")
-              .html("");*/
-
-            d3.select('#' + id + '_tooltip')
+            // Hide toolTip box
+            d3.select(Id + '_tooltip')
               .attr('opacity', 0);
           });
 
         g.append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color(d.data.name); })
+          .style("fill", function(d) { if(d.data.bgColor) return d.data.bgColor; else return color(d.data.name); })
           .style("opacity", "0.7");
 
         g.append("text")
           .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+          .attr('fill', function(d){
+            if(d.data.color) return d.data.color;
+            else return 'black';
+          })
           .attr("dy", ".1em")
           .style("opacity", "1")
           .text(function(d) { return d.data.name; });
 
-        chartExists = true;
-      },
-
-      redraw: function(){
-        // A function to re-draw the table with same or modified values
+        this.chartExists = true;
       }
     }
-  }
+  },
 
   // Generates test data with 'n' slices
-  ,generateTestData: function(n){
+  generateTestData: function(n){
     var data = [];
     for(var x = 1; x <= n; x++){
       data.push({
