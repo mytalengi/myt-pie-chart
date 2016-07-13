@@ -50,7 +50,7 @@
       width: this.width,
       height: this.height,
       data: this.data,
-      containerId: "#" + this.containerId,
+      containerId: this.containerId,
       id: this.id,
       chartExists: false,
 
@@ -93,13 +93,40 @@
         data = d;
       },
 
+      getContainerId: function(){
+        return containerId;
+      },
+
+      setContainerId: function(c){
+        containerId = c;
+      },
+
+      getId: function(){
+        return id;
+      },
+
+      setId: function(i){
+        id = i;
+      },
+
       redraw: function(){
         // Set radius to half of the smaller side
         // to avoid 'out-of-bounds' issue
         var radius = Math.min(width,height) / 2;
+
+        // TO DO
       },
 
       draw: function(){
+        var containerid = 'body';
+        if(containerId && containerId != 'body')
+          containerid = '#' + containerId;
+
+        var Id = containerId + '_pie';
+        if(id)
+          Id = '#' + id;
+
+        var tooltipId = Id + '-tooltip';
 
         if(this.chartExists){
           redraw();
@@ -124,15 +151,16 @@
           .sort(null)
           .value(function(d) { return d.value; });
 
-        var svg = d3.select("#" + containerId).append("svg")
+        var svg = d3.select(containerid).append("svg")
           .attr("width", width)
           .attr("height", height)
-          .attr("id", id)
+          .attr("id", Id)
           .append("g")
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        d3.select("#" + containerId).append("div")
-          .attr("id", id + "_tooltip");
+        d3.select(containerid).append("div");
+        console.log("Adding div to " + d3.select(containerid)[0]);
+        console.log(containerid);
 
         var g = svg.selectAll(".arc")
           .data(pie(data))
@@ -140,17 +168,15 @@
           .attr("class", "arc")
           .on("mouseover", function(d) {
             d3.select(this).select("path").attr("r", 10).style("opacity", "1");
-            d3.select("#" + id + "_tooltip")
+            d3.select(containerid).select('div')
               .attr("class", "pie_toolTip")
               .html(d.data.name + " - " + d.data.value);
-            console.log("#" + id + "_tooltip");
           })
           .on("mouseout", function(d){
             d3.select(this).select("path").attr("r", 5.5).style("opacity", "0.7");
-            d3.select("#" + id + "_tooltip")
+            d3.select(containerid).select('div')
               .attr("class", "")
               .html("");
-            console.log(id);
           });
 
         g.append("path")
