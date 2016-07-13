@@ -22,7 +22,7 @@
   */
 
   newChart: function(d, w, h, c, i){
-    var width = 350;
+    var width = 300;
     var height = 200;
     var data = [{
       name: 'Facebook',
@@ -154,9 +154,38 @@
         var svg = d3.select(containerid).append("svg")
           .attr("width", width)
           .attr("height", height)
-          .attr("id", Id)
+          .attr("id", id)
           .append("g")
-          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+          .attr("transform", "translate(" + width / 3 + "," + height / 2 + ")");
+
+        console.log('#' + id);
+        console.log(d3.select('#' + id));
+        var bar = d3.select('#' + id)
+          .append('g')
+          .attr('id', id + "_tooltip")
+          .attr('opacity', 0)
+          .attr('transform', "translate(" + width / 1.6 + "," + height / 10 + ")");
+
+        bar.append("rect")
+          .attr("width", width / 3)
+          .attr("height", 35)
+          .attr('fill', '#d9d9d9');
+
+        bar.append("text")
+          .attr("x", 4)
+          .attr("y", 10)
+          .attr("dy", ".35em")
+          .attr('font-size', 10)
+          .attr('id', id + '_tooltip'+ '_name')
+          .text("Name: " + "someName");
+
+        bar.append("text")
+          .attr("x", 4)
+          .attr("y", 25)
+          .attr("dy", ".35em")
+          .attr('font-size', 10)
+          .attr('id', id + '_tooltip'+ '_value')
+          .text("Value: " + "someValue");
 
         d3.select(containerid).append("div");
         console.log("Adding div to " + d3.select(containerid)[0]);
@@ -167,16 +196,24 @@
           .enter().append("g")
           .attr("class", "arc")
           .on("mouseover", function(d) {
-            d3.select(this).select("path").attr("r", 10).style("opacity", "1");
+            /*d3.select(this).select("path").attr("r", 10).style("opacity", "1");
             d3.select(containerid).select('div')
               .attr("class", "pie_toolTip")
-              .html(d.data.name + " - " + d.data.value);
+              .html(d.data.name + " - " + d.data.value); */
+
+            d3.select('#' + id + '_tooltip')
+              .attr('opacity', 1);
+            d3.select('#' + id + '_tooltip_name').text('Name: ' + d.data.name);
+            d3.select('#' + id + '_tooltip_value').text('Value: ' + d.data.value);
           })
           .on("mouseout", function(d){
-            d3.select(this).select("path").attr("r", 5.5).style("opacity", "0.7");
+            /*d3.select(this).select("path").attr("r", 5.5).style("opacity", "0.7");
             d3.select(containerid).select('div')
               .attr("class", "")
-              .html("");
+              .html("");*/
+
+            d3.select('#' + id + '_tooltip')
+              .attr('opacity', 0);
           });
 
         g.append("path")
@@ -186,7 +223,7 @@
 
         g.append("text")
           .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
+          .attr("dy", ".1em")
           .style("opacity", "1")
           .text(function(d) { return d.data.name; });
 

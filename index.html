@@ -23,6 +23,7 @@
   <body>
     <div id="testDiv" style="margin: 0 auto; width: 500px; float: right"></div>
     <div id="testDiv2" style="margin: 0 auto; width: 500px; float: left"></div>
+    <div id="testDiv3"></div>
     <script>
       // mytPieChart(data, width, height, container, id)
       // MUST PASS EXISTING CONTAINER ATM
@@ -34,7 +35,7 @@
       console.log("pie0.getData() -> ");
       console.log(pie0.getData());
 
-      var pie1 = new mytPieChart.newChart([{name:"One",value:1},{name:"Two",value:2},{name:"Three",value:3}], null, null, "testDiv2", null);
+      var pie1 = new mytPieChart.newChart([{name:"One",value:1},{name:"Two",value:2},{name:"Three",value:3}], null, null, "testDiv2", "testPie456");
       console.log("pie1.getWidth() -> " + pie1.getWidth());
       console.log("pie1.getHeight() -> " + pie1.getHeight());
       console.log("pie1.getData() -> ");
@@ -47,6 +48,9 @@
       pie0.setWidth(200);
       console.log("Pio0 " + pie0.getWidth());
       console.log("Pie1 " + pie1.getWidth());
+
+      var pie2 = mytPieChart.newChart(mytPieChart.generateTestData(20), 900, 600, 'testDiv3', 'testPie789');
+      pie2.draw();
     </script>
   </body>
 </html>
