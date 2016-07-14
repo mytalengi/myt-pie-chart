@@ -24,25 +24,15 @@
     <div id="testDiv" style="margin: 0 auto; width: 500px; float: right"></div>
     <div id="testDiv2" style="margin: 0 auto; width: 500px; float: left"></div>
     <div id="testDiv3"></div>
+    <div id="testDiv4"></div>
     <script>
       // mytPieChart(data, width, height, container, id)
       // MUST PASS EXISTING CONTAINER ATM
 
       var pie0 = new mytPieChart.newChart(null, null, null, "testDiv", "testPie123");
       pie0.draw();
-      pie0.redraw();
-      console.log("pie0.getWidth() -> " + pie0.getWidth());
-      console.log("pie0.getHeight() -> " + pie0.getHeight());
-      console.log("pie0.getData() -> ");
-      console.log(pie0.getData());
 
       var pie1 = new mytPieChart.newChart([{name:"One",value:1},{name:"Two",value:2},{name:"Three",value:3}], null, null, "testDiv2", "testPie456");
-      console.log("pie1.getWidth() -> " + pie1.getWidth());
-      console.log("pie1.getHeight() -> " + pie1.getHeight());
-      console.log("pie1.getData() -> ");
-      console.log(pie1.getData());
-      console.log(pie1.getContainerId());
-      console.log(pie1.getId());
       pie1.draw();
 
       var pie2 = mytPieChart.newChart();
@@ -79,6 +69,18 @@
       pie2.setId('pie2id');
       // Display the chart
       pie2.draw();
+
+      var pie3 = mytPieChart.newChart();
+      pie3.setData(mytPieChart.generateTestData(5));
+      pie3.setWidth(400);
+      pie3.setHeight(200);
+      pie3.setContainerId('testDiv4');
+      pie3.setId('someRandomId');
+      pie3.draw();
+
+      var data1 = mytPieChart.generateTestData(10);
+      var flag = false;
     </script>
+    <input type="button" value="Swap data" onclick="if(flag){ pie2.setData(data); pie2.draw(); } else { pie2.setData(data1); pie2.draw(); } flag = !flag; "/>
   </body>
 </html>

@@ -109,9 +109,6 @@
         id = i;
       },
 
-      redraw: function(){
-      },
-
       draw: function(){
         var containerid = 'body';
         if(containerId && containerId != 'body')
@@ -124,8 +121,8 @@
         var tooltipId = Id + '-tooltip';
 
         if(this.chartExists){
-          console.log("Unable to display this chart, it already exists.");
-          return;
+          d3.select(containerid).select('svg').remove();
+          this.chartExists = false;
         }
 
         var color = this.color;
