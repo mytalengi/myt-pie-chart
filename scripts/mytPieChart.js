@@ -120,8 +120,10 @@
 
         var tooltipId = Id + '-tooltip';
 
+        console.log('chartExists ' + this.chartExists);
         if(this.chartExists){
-          d3.select(containerid).select('svg').remove();
+          d3.select(Id).remove();
+          console.log(d3.select(Id));
           this.chartExists = false;
         }
 

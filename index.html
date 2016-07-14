@@ -21,19 +21,11 @@
     </style>
   </head>
   <body>
-    <div id="testDiv" style="margin: 0 auto; width: 500px; float: right"></div>
-    <div id="testDiv2" style="margin: 0 auto; width: 500px; float: left"></div>
     <div id="testDiv3"></div>
     <div id="testDiv4"></div>
     <script>
       // mytPieChart(data, width, height, container, id)
       // MUST PASS EXISTING CONTAINER ATM
-
-      var pie0 = new mytPieChart.newChart(null, null, null, "testDiv", "testPie123");
-      pie0.draw();
-
-      var pie1 = new mytPieChart.newChart([{name:"One",value:1},{name:"Two",value:2},{name:"Three",value:3}], null, null, "testDiv2", "testPie456");
-      pie1.draw();
 
       var pie2 = mytPieChart.newChart();
       var data = [{
@@ -70,17 +62,58 @@
       // Display the chart
       pie2.draw();
 
-      var pie3 = mytPieChart.newChart();
-      pie3.setData(mytPieChart.generateTestData(5));
-      pie3.setWidth(400);
-      pie3.setHeight(200);
-      pie3.setContainerId('testDiv4');
-      pie3.setId('someRandomId');
-      pie3.draw();
-
       var data1 = mytPieChart.generateTestData(10);
       var flag = false;
+      function myTalengi () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            createMytChart(JSON.parse(xhttp.responseText));
+          }
+        };
+        xhttp.open("GET", "https://mytalengi.com/api/v1/reports/status", true);
+        xhttp.send();
+      }
+
+      var mytPie = mytPieChart.newChart();
+
+      function createMytChart (d){
+        var data = [];
+        data.push({
+          name: 'Github',
+          value: d.github,
+          bgColor: '#8add6d',
+          color: 'white'
+        });
+        data.push({
+          name: 'Stackoverflow',
+          value: d.stack,
+          bgColor: '#9fa6ad',
+          color: 'white'
+        });
+        data.push({
+          name: 'Linked',
+          value: d.linked,
+          bgColor: '#3af',
+          color: 'white'
+        });
+
+        mytPie.setData(data);
+        mytPie.setWidth(600);
+        mytPie.setHeight(300);
+        mytPie.setContainerId('myt');
+        mytPie.setId('mytPie');
+        d3.select('#myt_title').text("MyTalengi Account Data");
+        var date = new Date(d.refreshed);
+        d3.select('#myt_info').text("Refreshed on: " + date.toLocaleString());
+        mytPie.draw();
+      }
     </script>
     <input type="button" value="Swap data" onclick="if(flag){ pie2.setData(data); pie2.draw(); } else { pie2.setData(data1); pie2.draw(); } flag = !flag; "/>
+    <div id="myt">
+      <h3 id="myt_title"></h3>
+      <p id="myt_info"></p>
+    </div>
+    <input type="button" value="Display myTalengi data" onclick="myTalengi()"/>
   </body>
 </html>
