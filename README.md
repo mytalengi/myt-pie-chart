@@ -13,15 +13,22 @@ Simple pie chart library with D3
   bgColor: string,
   color: string
 }]
-- set width with <code> pie.setWidth(width) </code>
-- set height with <code> pie.setHeight(height) </code>
-- set containerId with <code> pie.setContainerId(containerId) </code>
+ 
+  name & value are required, bgColor has calculated default value and color has 'black' default value
+
+- set width with <code> pie.setWidth(int) </code>
+- set height with <code> pie.setHeight(int) </code>
+- set containerId with <code> pie.setContainerId(string) </code>
   
   ContainerID must be passed else the chart won't display properly.
 
-- set chart id with <code> pie.setId(id) </code>
+  (ID of an existing element that the chart will be displayed in)
+
+- set chart id with <code> pie.setId(string) </code>
 
   Id required for proper display of tooltips.
+  
+  (A string that will be used to identify svg and tooltip elements)
 
 - display the chart with <code> pie.draw() </code>
 - if you want to redraw the chart simply call <code> pie.draw() </code> again
