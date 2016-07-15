@@ -3,7 +3,7 @@ Simple pie chart library with D3
 
 # How to use:
 
-- include <code>scripts/d3.js</code> and <code>scripts/mytPieChart.js</code>
+- install via the npm <code> npm install myt-pie-chart </code>
 - create a new instance of the pie chart as example below
 - <code> var pie = mytPieChart.newChart(); </code>
 - set pie data with <code> pie.setData(data) </code>
