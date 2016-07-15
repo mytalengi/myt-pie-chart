@@ -1,5 +1,5 @@
 
-(mytPieChart = {
+(myt-pie-chart = {
   // A function to create a pie chart.
   // Takes data, width and height as parameters.
   // All the data is optional and if not passed

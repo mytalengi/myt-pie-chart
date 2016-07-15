@@ -1,6 +1,6 @@
 {
-  "name": "mytPieChart",
-  "version": "1.0.0",
+  "name": "myt-pie-chart",
+  "version": "1.0.1",
   "description": "\"Library that simplifys the use of d3 to display pie charts.\"",
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/mytalengi/myt-pie-chart/issues"
   },
-  "homepage": "https://github.com/mytalengi/myt-pie-chart#readme"
+  "homepage": "https://github.com/mytalengi/myt-pie-chart#readme",
+  "dependencies": {
+    "d3": "4.1.1"
+  }
 }
