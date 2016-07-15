@@ -5,7 +5,7 @@ Simple pie chart library with D3
 
 - install via the npm <code> npm install myt-pie-chart </code>
 - create a new instance of the pie chart as example below
-- <code> var pie = mytPieChart.newChart(); </code>
+- <code> var pie = myt-pie-chart.newChart(); </code>
 - set pie data with <code> pie.setData(data) </code>
 - data format: [{
   name: string,
