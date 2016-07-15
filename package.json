@@ -1,0 +1,23 @@
+{
+  "name": "mytPieChart",
+  "version": "1.0.0",
+  "description": "\"Library that simplifys the use of d3 to display pie charts.\"",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mytalengi/myt-pie-chart.git"
+  },
+  "keywords": [
+    "d3", "mytalengi", "pie chart", "pie", "chart"
+  ],
+  "contributors": [
+    {
+      "name": "Ante Adamovic",
+      "email": "ante@keepersolutions.com"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mytalengi/myt-pie-chart/issues"
+  },
+  "homepage": "https://github.com/mytalengi/myt-pie-chart#readme"
+}
