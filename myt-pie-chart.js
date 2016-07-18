@@ -1,4 +1,230 @@
+(function (root, factory) {
+  if(typeof define === "function" && define.amd) {
+    // If AMD is used
+    define(["myt-pie-chart"], function(mytPieChart){
+      return (root.mytPieChart = factory(mytPieChart));
+    });
+  } else if(typeof module === "object" && module.exports) {
+    // If require is used
+    module.exports = (root.mytPieChart = factory(require("myt-pie-chart")));
+  } else {
+    root.mytPieChart = factory(root.mytPieChart);
+  }
+}(this, function(mytPieChart){
 
+  mytPieChart = {
+
+    newChart: function() {
+
+      return {
+
+        data: [],
+        // Data to be displayed in the chart
+        setData: function(d){
+          this.data = d;
+
+          return this;
+        },
+        getData: function(){
+          return this.data;
+        },
+
+        width: 450,
+        // Width of the SVG element
+        setWidth: function(w){
+          this.width = w;
+
+          return this;
+        },
+        getWidth: function(){
+          return this.width;
+        },
+
+        height: 300,
+        // Height of the SVG element
+        setHeight: function(h){
+          this.height = h;
+
+          return this;
+        },
+        getHeight: function(){
+          return this.height;
+        },
+
+        container: 'body',
+        // Container for the SVG element
+        // Id is expected to be passed else
+        // it won't work as expected
+        // Defaults to 'body'
+        setContainer: function(c){
+          this.container = c;
+
+          return this;
+        },
+        getContainer: function(){
+          return this.container;
+        },
+
+        id: this.randomId(),
+        // Id of the SVG element
+        // Chart id --> id + '_chart'
+        // Tooltip id --> id + '_tooltip'
+        setId: function(i){
+          this.id = i;
+
+          return this;
+        },
+        getId: function(){
+          return this.id;
+        },
+
+        color: d3.scale.ordinal()
+          .range([
+            // Blue,     Green,     Yellow,     Purple,    Red,      Brown,     Pink,      Orange,    L.Blue,   L.Green
+            "#ccccff", "#ccffcc", "#ffffcc", "#f2ccff", "#ffcccc", "#f2e6d9", "#ffccff", "#ffe0cc", "#ccffff", "#e6ffcc", // 1st layer at 90%
+            "#b3b3ff", "#b3ffb3", "#ffffb3", "#ecb3ff", "#ffb3b3", "#ecd9c6", "#ffb3ff", "#ffd1b3", "#b3ffff", "#d9ffb3", // 2nd layer at 85%
+            "#9999ff", "#99ff99", "#ffff99", "#e699ff", "#ff9999", "#e6ccb3", "#ff99ff", "#ffc299", "#99ffff", "#ccff99", // 3rd layer at 80%
+            "#8080ff", "#80ff80", "#ffff80", "#df80ff", "#ff8080", "#dfbf9f", "#ff80ff", "#ffb380", "#80ffff", "#bfff80", // 4th layer at 75%
+            "#6666ff", "#66ff66", "#ffff66", "#d966ff", "#ff6666", "#d9b38c", "#ff66ff", "#ffa366", "#66ffff", "#b3ff66", // 5th layer at 70%
+            "#4d4dff", "#4dff4d", "#ffff4d", "#d24dff", "#ff4d4d", "#d2a679", "#ff4dff", "#ff944d", "#4dffff", "#a6ff4d", // 6th layer at 65%
+            "#3333ff", "#33ff33", "#ffff33", "#cc33ff", "#ff3333", "#cc9966", "#ff33ff", "#ff8533", "#33ffff", "#99ff33", // 7th layer at 60%
+            "#1a1aff", "#1aff1a", "#ffff1a", "#c61aff", "#ff1a1a", "#c68c53", "#ff1aff", "#ff751a", "#1affff", "#8cff1a", // 8th layer at 55%
+            "#0000ff", "#00ff00", "#ffff00", "#bf00ff", "#ff0000", "#bf8040", "#ff00ff", "#ff6600", "#00ffff", "#80ff00", // 9th layer at 50%
+            "#0000e6", "#00e600", "#e6e600", "#ac00e6", "#e60000", "#ac7339", "#e600e6", "#e65c00", "#00e6e6", "#73e600", // 10th layer at 45%
+          ]),
+
+        chart: {
+          svg: 'svgElement',
+          pie: 'pieElement',
+          arc: 'arcElement',
+          labelArc: 'labelArcElement',
+          tooltip: 'tooltipElement'
+        },
+
+        getProperties: function(){
+          return {
+            data: this.data,
+            width: this.width,
+            height: this.height,
+            container: this.container,
+            id: this.id,
+            chart: this.chart
+          }
+        },
+
+        display: function(){
+          var r = Math.min(this.width,this.height) / 2;
+          var container = this.container == 'body' ? this.container : '#' + this.container;
+          var color = this.color;
+          var chart = this.chart;
+          var id = this.id;
+
+          this.chart.arc = d3.svg.arc()
+            .outerRadius(r - 10)
+            .innerRadius(0);
+
+          this.chart.labelArc = d3.svg.arc()
+            .outerRadius(r - 50)
+            .innerRadius(r - 50);
+
+          this.chart.pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.value; });
+
+          // Create SVG element
+          this.chart.svg = d3.select(container).append('svg')
+            .attr('width', this.width)
+            .attr('height', this.height)
+            .attr('id', this.id);
+
+          // Create graphics container within svg
+          this.chart.svg.append('g')
+            .attr('transform', 'translate(' + this.width / 3 + ', ' + this.height / 2 + ')')
+            .attr('id', this.id + '_chart');
+
+          // Create tooltip container within svg
+          this.chart.tooltip = this.chart.svg.append('g')
+            .attr('transform', 'translate(' + this.width / 1.6 + ', ' + this.height / 10 + ')')
+            .attr('id', this.id + '_tooltip')
+            .attr('opacity', 0);
+
+          this.chart.svg.select('#' + this.id + '_tooltip').append('rect')
+            .attr('width', this.width / 3)
+            .attr('height', 35)
+            .attr('fill', '#d9d9d9');
+
+          this.chart.svg.select('#' + this.id + '_tooltip').append('text')
+            .attr('x', 4)
+            .attr('y', 10)
+            .attr('dy', '.35em')
+            .attr('font-size', 10)
+            .attr('id', this.id + '_tooltip_name');
+
+          this.chart.svg.select('#' + this.id + '_tooltip').append('text')
+            .attr('x', 4)
+            .attr('y', 25)
+            .attr('dy', '.35em')
+            .attr('font-size', 10)
+            .attr('id', this.id + '_tooltip_value');
+
+          var g = this.chart.svg.select('#' + this.id + '_chart').selectAll('.arc')
+            .data(this.chart.pie(this.data))
+            .enter().append('g')
+            .attr('class', 'arc')
+            .attr('transition', 0.5)
+            .on('mouseover', function(d){
+              console.log('#' + id + '_tooltip');
+
+              d3.select('#' + id + '_tooltip')
+                .attr('opacity', 1)
+                .attr('fill', d3.select(this).attr('fill'));
+
+              d3.select('#' + id + '_tooltip_name')
+                .attr('fill', d3.select(this).attr('fill'))
+                .text('Name: ' + d.data.name);
+
+              d3.select('#' + id + '_tooltip_value')
+                .attr('fill', d3.select(this).attr('fill'))
+                .text('Value: ' + d.data.value);
+            })
+            .on('mouseout', function(d){
+              d3.select('#' + id + '_tooltip')
+                .attr('opacity', 0);
+            });
+
+            g.append("path")
+              .attr("d", this.chart.arc)
+              .style("fill", function(d) { if(d.data.bgColor) return d.data.bgColor; else return color(d.data.name); })
+              .style("opacity", "0.7");
+
+            g.append("text")
+              .attr("transform", function(d) { return "translate(" + chart.labelArc.centroid(d) + ")"; })
+              .attr('fill', function(d){
+                if(d.data.color) return d.data.color;
+                else return 'black';
+              })
+              .attr("dy", ".1em")
+              .style("opacity", "1")
+              .text(function(d) { return d.data.name; });
+
+        }
+      }
+    },
+
+    randomId: function(){
+      var id = '';
+      var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+      for( var i = 0; i < 5; i++ )
+        id += possible.charAt(Math.floor(Math.random() * possible.length));
+
+      return id;
+    }
+  }
+
+  return mytPieChart;
+}));
+/*
 (myt-pie-chart = {
   // A function to create a pie chart.
   // Takes data, width and height as parameters.
@@ -19,7 +245,7 @@
       name: 'Youtube',
       value: 231
     }]
-  */
+  */ /*
 
   newChart: function(d, w, h, c, i){
     var width = 300;
@@ -246,4 +472,4 @@
     }
     return data;
   }
-});
+});*/

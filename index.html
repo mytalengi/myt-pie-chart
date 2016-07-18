@@ -1,0 +1,49 @@
+<html>
+
+<head>
+
+  <script src="d3.js"></script>
+  <script src="myt-pie-chart.js"></script>
+</head>
+<body>
+  <script>
+  var chart = mytPieChart.newChart()
+    .setData([{
+      name: 'One',
+      value: 1
+    },{
+      name: 'Two',
+      value: 1
+    },{
+      name: 'Three',
+      value: 1
+    },{
+      name: 'Four',
+      value: 1
+    },{
+      name: 'Five',
+      value: 1
+    },{
+      name: 'Six',
+      value: 1
+    },{
+      name: 'Seven',
+      value: 1
+    }])
+    .setWidth(900)
+    .setHeight(400)
+    .setId('someId');
+  console.log(chart.getData());
+  console.log(chart.getWidth());
+  console.log(chart.getHeight());
+  console.log(chart.getContainer());
+  console.log(chart.getId());
+  chart.display();
+  console.log(chart.getProperties());
+
+  console.log(mytPieChart.newChart().getProperties());
+  console.log(mytPieChart.newChart().chart);
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 {
   "name": "myt-pie-chart",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "\"Library that simplifys the use of d3 to display pie charts.\"",
   "repository": {
     "type": "git",
