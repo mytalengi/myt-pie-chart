@@ -1,35 +1,45 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# How it works:
+## This is the <b>chart</b> section:
+It contains the following:
+- <b>Id:</b>
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+  Id of the chart object, defaults to the ID of the entire pie chart + '_chart' postfix
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
+  It contains <code> setId(string) </code>, <code> getId() </code> and <code> getHashId() </code>
+
+- <b>Font:</b> https://github.com/mytalengi/myt-pie-chart/tree/master/example/chart/font
+
+  An object with font properties, refer to the link for more information
+
+- <b>Position:</b> https://github.com/mytalengi/myt-pie-chart/tree/master/example/chart/position
+
+  An object with position properties, refer to the link for more information
+
+- <b>Dimension:</b> https://github.com/mytalengi/myt-pie-chart/tree/master/example/chart/dimension
+
+  An object with dimension properties, refer to the link for more information
   
-  ContainerID must be passed else the chart won't display properly.
+- <b> Label: </b>
 
-  (ID of an existing element that the chart will be displayed in)
-
-- set chart id with <code> pie.setId(string) </code>
-
-  Id required for proper display of tooltips.
+  An object containing dx and dy positions of the chart label to access them use
   
-  (A string that will be used to identify svg and tooltip elements)
+  <code> chart.label.position.dx</code>
+  
+  <code> chart.label.position.dy</code>
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+- <b><code>getChart()</code>:</b> 
+
+  This function returns an object with all of the properties of this object, without the functions
+  
+      {
+        id: string,
+        font: object,
+        position: object,
+        dimension: object,
+        label: object
+      }
+
+Click on the links to see further information about each part of the library!
