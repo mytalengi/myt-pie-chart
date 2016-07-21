@@ -7,16 +7,18 @@ Simple pie chart library with D3
 - create a new instance of the pie chart <code>var pie = mytPieChart.newChart();</code>
 - set pie data with <code> pie.setData(data) </code>
 
-<code>
-    data = [{
-      name: string,
-      value: int,
-      bgColor: string,
-      color: string
-    }]
-</code>
+    <code>
+        data = [{
+          name: string,
+          value: int,
+          bgColor: string,
+          color: string
+        }]
+    </code>
  
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+ 
+
+    name & value are required, bgColor has calculated default value and color has 'black' default value
 
 - set width with <code> pie.setWidth(int) </code>
 - set height with <code> pie.setHeight(int) </code>
@@ -39,4 +41,4 @@ Simple pie chart library with D3
 # How it works
 - Simplest use was explained above, for further reference please check:
 
-https://raw.githubusercontent.com/mytalengi/myt-pie-chart/master/example/
+    https://raw.githubusercontent.com/mytalengi/myt-pie-chart/master/example/
