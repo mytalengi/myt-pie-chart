@@ -1,35 +1,9 @@
 # myt-pie-chart
-Simple pie chart library with D3
+Pie chart library with developed using d3.js
 
-# How to use:
+# How it works:
+- Simplest use of the library was already explained, part from that this library has 2 parts
+- <b>Chart:</b> https://github.com/mytalengi/myt-pie-chart/tree/v2.0.0/example/chart
+- <b>Tooltip:</b> https://github.com/mytalengi/myt-pie-chart/tree/v2.0.0/example/tooltip
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
-
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
-
-  (ID of an existing element that the chart will be displayed in)
-
-- set chart id with <code> pie.setId(string) </code>
-
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
-
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+Click on the links to see further information about each part of the library!
