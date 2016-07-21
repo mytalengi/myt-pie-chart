@@ -7,43 +7,84 @@
 </head>
 <body>
   <script>
-  var chart = mytPieChart.newChart()
-    .setData([{
-      name: 'One',
-      value: 1
-    },{
-      name: 'Two',
-      value: 1
-    },{
-      name: 'Three',
-      value: 1
-    },{
-      name: 'Four',
-      value: 1
-    },{
-      name: 'Five',
-      value: 1
-    },{
-      name: 'Six',
-      value: 1
-    },{
-      name: 'Seven',
-      value: 1
-    }])
-    .setWidth(900)
-    .setHeight(400)
-    .setId('someId');
-  console.log(chart.getData());
-  console.log(chart.getWidth());
-  console.log(chart.getHeight());
-  console.log(chart.getContainer());
-  console.log(chart.getId());
-  chart.display();
-  console.log(chart.getProperties());
+  var chart = mytPieChart.newChart();
 
-  console.log(mytPieChart.newChart().getProperties());
-  console.log(mytPieChart.newChart().chart);
+  var data_1 = [{
+    name: 'Facebook',
+    value: 300,
+    bgColor: '#3b5998',
+    color: 'white'
+  },{
+    name: 'Twitter',
+    value: 200,
+    bgColor: '#ff9933',
+    color: 'white'
+  },{
+    name: 'Google+',
+    value: 150,
+    bgColor: '#d73d32',
+    color: 'white'
+  }];
+  var data_2 = [{
+    name: 'Facebook',
+    value: 300,
+    bgColor: '#3b5998',
+    color: 'white'
+  },{
+    name: 'Stackoverflow',
+    value: 200,
+    bgColor: 'white',
+    color: 'black'
+  },{
+    name: 'Twitter',
+    value: 200,
+    bgColor: '#ff9933',
+    color: 'white'
+  },{
+    name: 'Github',
+    value: 200,
+    bgColor: '#78ce5a',
+    color: 'white'
+  },{
+    name: 'Google+',
+    value: 150,
+    bgColor: '#d73d32',
+    color: 'white'
+  }];
+
+  chart.setData(data_1)
+    .setId('demo');
+  chart.display();
+  chart.graphics.update();
+
+
+  var testChart = mytPieChart.newChart();
+  console.log("Id set to: " + testChart.getId());
+  console.log("<------------------------------------------------------------>");
+  console.log("## Chart");
+  console.log(testChart.chart.getChart());
+  console.log("<------------------------------------------------------------>");
+  console.log("### Id");
+  console.log(testChart.chart.getId());
+  console.log("### Font");
+  console.log(testChart.chart.font.getFont());
+  console.log("### Position");
+  console.log(testChart.chart.position.getPosition());
+  console.log("### Dimension");
+  console.log(testChart.chart.dimension.getDimension());
+  console.log("<------------------------------------------------------------>");
+  console.log("## Tooltip");
+  console.log("<------------------------------------------------------------>");
+  console.log("### Font");
+  console.log(testChart.tooltip.font.getFont());
+  console.log("### Position");
+  console.log(testChart.tooltip.position.getPosition());
+  console.log("### Dimension");
+  console.log(testChart.tooltip.dimension.getDimension());
+
+
   </script>
+  <input type="button" value="vlaue" onclick="javascript: if(chart.getData() == data_1) chart.setData(data_2); else chart.setData(data_1); chart.update();"/>
 </body>
 
 </html>
