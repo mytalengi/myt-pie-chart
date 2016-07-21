@@ -36,3 +36,7 @@ Simple pie chart library with D3
 
 ---------
 
+# How it works
+- Simplest use was explained above, for further reference please check:
+
+https://raw.githubusercontent.com/mytalengi/myt-pie-chart/master/example/
