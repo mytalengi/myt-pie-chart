@@ -1,44 +1,84 @@
-# myt-pie-chart
+# D3 Pie Chart
+
+_myt-pie-chart_
+
 Simple pie chart library with D3
 
-# How to use:
+## Prerequisites
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart <code>var pie = mytPieChart.newChart();</code>
-- set pie data with <code> pie.setData(data) </code>
+If you're installing with NPM, you need NPM installed. Otherwise you can checkout the library from GitHub and use directly.
 
-    <code>
-        data = [{
-          name: string,
-          value: int,
-          bgColor: string,
-          color: string
-        }]
-    </code>
- 
- 
+## Getting started:
 
-    name & value are required, bgColor has calculated default value and color has 'black' default value
+- Install via the npm `npm install myt-pie-chart --save`.
+- Either include the library with a script tag or require it _(RequireJS, AMD, Browserify etc.)_.
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart will be displayed in 'body'.
+## Usage
 
-  (ID of an existing element that the chart will be displayed in)
+If using script tags.
 
-- set chart id with <code> pie.setId(string) </code>
+```HTML
+<script src="./node_modules/path/to/d3.js"></script>
+<script src="./node_modules/myt-pie-chart/myt-pie-chart.js"></script>
+```
 
-  (A string that will be used to identify svg and tooltip elements)
+If requiring.
 
-- display the chart with <code> pie.display() </code>
+```JavaScript
+var d3 = require('d3');
+var mytPieChart = require('myt-pie-chart');
+```
 
-- if you want to redraw the chart simply call <code> pie.display() </code> again
+Prepare your chart data, it may look something like this:
 
----------
+```JavaScript
+var data = [{
+  name: 'Users',      // Required. {string} - Data entry name.
+  value: 28819,       // Required. {int}    - Data entry value.
+  bgColor: '#747485', // Optional. {string} - defaults to ~random color.
+  color: 'green'      // Optional. {string} - defaults to black.
+}];
+```
 
-# How it works
-- Simplest use was explained above, for further reference please check:
+Create a pie chart instance, then assign it your data.
 
-    https://github.com/mytalengi/myt-pie-chart/tree/master/example
+```JavaScript
+var pie = mytPieChart.newChart().setData(data);
+```
+
+Configure your chart.
+
+```JavaScript
+pie.setWidth(400)             // Required. {int}    - default unit is 'px'.
+   .setHeight(350)            // Required. {int}    - default unit is 'px'.
+   .setContainerId('my-id');  // Optional. {string} - ID if an existing DOM element used as container, defaults to 'body'.
+
+// Additional options, see full options support in documentation.
+pie.setId('my-chart-id')      // Optional. {string} - ID to be used by chart elements, defaults to a generated ID.
+   .chart.font.setSize(18)    // Optional. {int}    - Size of font used in chart.
+   .tooltip.font.setSize(12); // Optional. {int}    - Size of font used in tooltip.
+```
+
+Render the chart.
+
+```JavaScript
+pie.display();
+```
+In case you want to redraw the chart, you may call `pie.display();` again.
+
+```JavaScript
+pie.display();
+
+// Do some data changes, like Ajax calls.
+data = someNewData();
+pie.setData(data);
+
+// Re-render the chart with new data.
+pie.display();
+```
+
+---
+
+## Examples and in depth explanations
+
+For more info, see [examples and complete API documentation](examples/).
