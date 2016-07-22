@@ -109,7 +109,7 @@
           },
           getHashId: function(){
             return '#' + this.id;
-          }
+          },
 
           font: {
 
@@ -310,7 +310,7 @@
           },
           getHashId: function(){
             return '#' + this.id;
-          }
+          },
 
           font: {
 
