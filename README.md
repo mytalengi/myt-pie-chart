@@ -55,8 +55,8 @@ pie.setWidth(400)             // Required. {int}    - default unit is 'px'.
 
 // Additional options, see full options support in documentation.
 pie.setId('my-chart-id')      // Optional. {string} - ID to be used by chart elements, defaults to a generated ID.
-   .chart.font.setSize(18)    // Optional. {int}    - Size of font used in chart.
-   .tooltip.font.setSize(12); // Optional. {int}    - Size of font used in tooltip.
+pie.chart.font.setSize(18)    // Optional. {int}    - Size of font used in chart.
+pie.tooltip.font.setSize(12); // Optional. {int}    - Size of font used in tooltip.
 ```
 
 Render the chart.
@@ -81,4 +81,4 @@ pie.display();
 
 ## Examples and in depth explanations
 
-For more info, see [examples and complete API documentation](examples/).
+For more info, see [examples and complete API documentation](example/).
