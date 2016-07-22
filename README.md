@@ -40,7 +40,7 @@ var data = [{
 }];
 ```
 
-Create a pie chart instance, then assign it your data.
+Create a pie chart instance, then assign your data to it.
 
 ```JavaScript
 var pie = mytPieChart.newChart().setData(data);
