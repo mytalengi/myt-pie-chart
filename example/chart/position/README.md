@@ -1,35 +1,50 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# Chart.Position Properties
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+## x
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
+  _`pie.chart.position.setX(int)` - Optional, defaults to 150._
 
-  (ID of an existing element that the chart will be displayed in)
+```JavaScript
+pie.chart.position.setX(int); // Sets the x-position of the chart.
+pie.chart.position.getX();       // Returns the x-position of the chart.
+```
+# y
 
-- set chart id with <code> pie.setId(string) </code>
+  _`pie.chart.position.setY(int)` - Optional, defaults to 150._
 
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
+```JavaScript
+pie.chart.position.setY(int); // Sets the y-position of the chart.
+pie.chart.position.getY();       // Returns the y-position of the chart.
+```
+# dx
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+  _`pie.chart.position.setDX(int)` - Optional, defaults to null._
+
+```JavaScript
+pie.chart.position.setDX(int); // Sets the x-offset of the chart.
+pie.chart.position.getDX();       // Returns the x-offset of the chart.
+```
+# dy
+
+  _`pie.chart.position.setDY(int)` - Optional, defaults to null._
+
+```JavaScript
+pie.chart.position.setDY(int); // Sets the y-offset of the chart.
+pie.chart.position.getDY();       // Returns the y-offset of the chart.
+```
+
+## get Position
+
+```JavaScript
+pie.chart.position.getPosition() // Returns the properties of the chart.position object
+
+// #=> {
+//   x: ..,
+//   y: ..,
+//   dx: ..,
+//   dy: ..
+// };
+```
