@@ -1,35 +1,70 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# Tooltip.Font Properties
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+## Family
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
+  _`pie.tooltip.font.setFamily(string)` - Optional, defaults to "'Arial', Helvetica, sans-serif"._
 
-  (ID of an existing element that the chart will be displayed in)
+```JavaScript
+pie.tooltip.font.setFamily(str); // Sets the font-family of the tooltip.
+pie.tooltip.font.getFamily();       // Returns the font-family of the tooltip.
+```
 
-- set chart id with <code> pie.setId(string) </code>
+## Size
 
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
+  _`pie.tooltip.font.setSize(int)` - Optional, defaults to 14._
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+```JavaScript
+pie.tooltip.font.setSize(int); // Sets the font-size of the tooltip.
+pie.tooltip.font.getSize();       // Returns the font-size of the tooltip.
+```
+## Size Type
+
+  _`pie.tooltip.font.setSizeType(str)` - Optional, defaults to "px"._
+
+```JavaScript
+pie.tooltip.font.setSizeType(str); // Sets the size type of the tooltip font.
+pie.tooltip.font.getSizeType();       // Returns the size type of the tooltip font.
+```
+## Variant
+
+  _`pie.tooltip.font.setVariant(str)` - Optional, defaults to "normal"._
+
+```JavaScript
+pie.tooltip.font.setVariant(str); // Sets the font-variant of the tooltip.
+pie.tooltip.font.getVariant();       // Returns the font-variant of the tooltip.
+```
+## Weight
+
+  _`pie.tooltip.font.setWeight(obj)` - Optional, defaults to "normal"._
+
+```JavaScript
+pie.tooltip.font.setWeight(obj); // Sets the font-weight of the tooltip.
+pie.tooltip.font.getWeight();       // Returns the font-weight of the tooltip.
+```
+
+## Style
+
+  _`pie.tooltip.font.setStyle(str)` - Optional, defaults to "normal"._
+
+```JavaScript
+pie.tooltip.font.setStyle(str); // Sets the font-style of the tooltip.
+pie.tooltip.font.getStyle();       // Returns the font-style of the tooltip.
+```
+
+## get Font
+
+```JavaScript
+pie.tooltip.font.getFont() // Returns the properties of the tooltip.font object
+
+// #=> {
+//   family: ..,
+//   size: ..,
+//   sizeType: ..,
+//   variant: ..,
+//   weight: ..,
+//   style: ..
+// };
+```
