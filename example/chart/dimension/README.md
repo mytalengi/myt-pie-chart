@@ -1,35 +1,23 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# Chart.Dimension Properties
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+## Radius
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
+  _`pie.chart.dimension.setRadius(int)` - Optional, defaults to 150._
 
-  (ID of an existing element that the chart will be displayed in)
+```JavaScript
+pie.chart.dimension.setRadius(str); // Sets the radius of the chart.
+pie.chart.dimension.getRadius();       // Returns the radius of the chart.
+```
 
-- set chart id with <code> pie.setId(string) </code>
+## get Dimension
 
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
+```JavaScript
+pie.chart.dimension.getDimension() // Returns the properties of the chart.dimension object
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+// #=> {
+//   radius: ..
+// };
+```
