@@ -17,19 +17,19 @@ pie.tooltip.getHashId();   // Returns the id of the <g> element with '#' prefix.
 
 _Optional._
 
-Please see [extended font documentation](tooltip/font/).
+Please see [extended font documentation](font/).
 
 ## Tooltip position
 
 _Optional._
 
-Please see [extended position documentation](tooltip/position/).
+Please see [extended position documentation](position/).
 
 ## Tooltip dimension
 
 _Optional._
 
-Please see [extended dimension documentation](tooltip/dimension/).
+Please see [extended dimension documentation](dimension/).
 
 ## Tooltip get
 
