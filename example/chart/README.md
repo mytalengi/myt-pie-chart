@@ -1,45 +1,47 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How it works:
-## This is the <b>chart</b> section:
-It contains the following:
-- <b>Id:</b>
+# Chart properties
 
-  Id of the chart object, defaults to the ID of the entire pie chart + '_chart' postfix
+## Chart ID
 
-  It contains <code> setId(string) </code>, <code> getId() </code> and <code> getHashId() </code>
+_`pie.chart.setId(str)` - Optional, defaults to `<SVGId>_chart`._
 
-- <b>Font:</b> https://github.com/mytalengi/myt-pie-chart/tree/master/example/chart/font
+```JavaScript
+pie.chart.setId(str); // Sets the id of the `<g>` element.
+pie.chart.getId();       // Returns the id of the `<g>` element.
+pie.chart.getHashId();   // Returns the id of the `<g>` element with '#' prefix.
+```
 
-  An object with font properties, refer to the link for more information
+## Chart font
 
-- <b>Position:</b> https://github.com/mytalengi/myt-pie-chart/tree/master/example/chart/position
+_Optional._
 
-  An object with position properties, refer to the link for more information
+Please see [extended font documentation](chart/font/).
 
-- <b>Dimension:</b> https://github.com/mytalengi/myt-pie-chart/tree/master/example/chart/dimension
+## Chart position
 
-  An object with dimension properties, refer to the link for more information
-  
-- <b> Label: </b>
+_Optional._
 
-  An object containing dx and dy positions of the chart label to access them use
-  
-  <code> chart.label.position.dx</code>
-  
-  <code> chart.label.position.dy</code>
+Please see [extended position documentation](chart/position/).
 
-- <b><code>getChart()</code>:</b> 
+## Chart dimension
 
-  This function returns an object with all of the properties of this object, without the functions
-  
-      {
-        id: string,
-        font: object,
-        position: object,
-        dimension: object,
-        label: object
-      }
+_Optional._
 
-Click on the links to see further information about each part of the library!
+Please see [extended dimension documentation](chart/dimension/).
+
+## Get chart
+
+_`chart.getChart()` - Optional, returns the properties of the chart object._
+
+```JavaScript
+pie.chart.getChart();
+
+// #=> {
+//   id: ..,
+//   font: ..,
+//   position: ..,
+//   dimension: ..
+// };
+```
