@@ -1,35 +1,70 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# Chart.Font Properties
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+## Family
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
+  _`pie.chart.font.setFamily(string)` - Optional, defaults to "'Arial', Helvetica, sans-serif"._
 
-  (ID of an existing element that the chart will be displayed in)
+```JavaScript
+pie.chart.font.setFamily(str); // Sets the font-family of the chart.
+pie.chart.font.getFamily();       // Returns the font-family of the chart.
+```
 
-- set chart id with <code> pie.setId(string) </code>
+## Size
 
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
+  _`pie.chart.font.setSize(int)` - Optional, defaults to 14._
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+```JavaScript
+pie.chart.font.setSize(int); // Sets the font-size of the chart.
+pie.chart.font.getSize();       // Returns the font-size of the chart.
+```
+## Size Type
+
+  _`pie.chart.font.setSizeType(str)` - Optional, defaults to "px"._
+
+```JavaScript
+pie.chart.font.setSizeType(str); // Sets the size type of the chart font.
+pie.chart.font.getSizeType();       // Returns the size type of the chart font.
+```
+## Variant
+
+  _`pie.chart.font.setVariant(str)` - Optional, defaults to "normal"._
+
+```JavaScript
+pie.chart.font.setVariant(str); // Sets the font-variant of the chart.
+pie.chart.font.getVariant();       // Returns the font-variant of the chart.
+```
+## Weight
+
+  _`pie.chart.font.setWeight(obj)` - Optional, defaults to "normal"._
+
+```JavaScript
+pie.chart.font.setWeight(obj); // Sets the font-weight of the chart.
+pie.chart.font.getWeight();       // Returns the font-weight of the chart.
+```
+
+## Style
+
+  _`pie.chart.font.setStyle(str)` - Optional, defaults to "normal"._
+
+```JavaScript
+pie.chart.font.setStyle(str); // Sets the font-style of the chart.
+pie.chart.font.getStyle();       // Returns the font-style of the chart.
+```
+
+## get Font
+
+```JavaScript
+pie.chart.font.getFont() // Returns the properties of the chart.font object
+
+// #=> {
+//   family: ..,
+//   size: ..,
+//   sizeType: ..,
+//   variant: ..,
+//   weight: ..,
+//   style: ..
+// };
+```
