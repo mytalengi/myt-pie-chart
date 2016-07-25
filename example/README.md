@@ -71,7 +71,7 @@ pie.display();
 
 ## Chart ID
 
-_All optional._
+_`pie.chart.setId(str)` - Optional, defaults to `<SVGId>_chart`._
 
 ```JavaScript
 pie.chart.setId(str); // Sets the id of the `<g>` element.
@@ -116,7 +116,7 @@ pie.chart.getChart();
 
 ## Tooltip ID
 
-_`tooltip.setId(str)` - Optional, defaults to `<SVGId>_tooltip`._
+_`pie.tooltip.setId(str)` - Optional, defaults to `<SVGId>_tooltip`._
 
 ```JavaScript
 pie.tooltip.setId(string); // Sets the id of the <g> element.
