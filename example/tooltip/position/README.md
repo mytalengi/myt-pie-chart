@@ -1,35 +1,83 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# Tooltip.Position Properties
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+## x
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
+  _`pie.tooltip.position.setX(int)` - Optional, defaults to 281.25._
 
-  (ID of an existing element that the chart will be displayed in)
+```JavaScript
+pie.tooltip.position.setX(int); // Sets the x-position of the tooltip.
+pie.tooltip.position.getX();       // Returns the x-position of the tooltip.
+```
+## y
 
-- set chart id with <code> pie.setId(string) </code>
+  _`pie.tooltip.position.setY(int)` - Optional, defaults to 30._
 
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
+```JavaScript
+pie.tooltip.position.setY(int); // Sets the y-position of the tooltip.
+pie.tooltip.position.getY();       // Returns the y-position of the tooltip.
+```
+## dx
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+  _`pie.tooltip.position.setDX(int)` - Optional, defaults to null._
+
+```JavaScript
+pie.tooltip.position.setDX(int); // Sets the x-offset of the tooltip.
+pie.tooltip.position.getDX();       // Returns the x-offset of the tooltip.
+```
+## dy
+
+  _`pie.tooltip.position.setDY(int)` - Optional, defaults to null._
+
+```JavaScript
+pie.tooltip.position.setDY(int); // Sets the y-offset of the tooltip.
+pie.tooltip.position.getDY();       // Returns the y-offset of the tooltip.
+```
+## name x
+
+  _`pie.tooltip.position.setNameX(int)` - Optional, defaults to 4._
+
+```JavaScript
+pie.tooltip.position.setNameX(int); // Sets the x-position of the tooltip name field.
+pie.tooltip.position.getNameX();       // Returns the x-position of the tooltip name field.
+```
+## name y
+
+  _`pie.tooltip.position.setNameY(int)` - Optional, defaults to 14._
+
+```JavaScript
+pie.tooltip.position.setNameY(int); // Sets the y-position of the tooltip name field.
+pie.tooltip.position.getNameY();       // Returns the y-position of the tooltip name field.
+```
+## value x
+
+  _`pie.tooltip.position.setValueX(int)` - Optional, defaults to 4._
+
+```JavaScript
+pie.tooltip.position.setValueX(int); // Sets the x-position of the tooltip value field.
+pie.tooltip.position.getValueX();       // Returns the x-position of the tooltip value field.
+```
+
+## value y
+
+  _`pie.tooltip.position.setValueY(int)` - Optional, defaults to 31._
+
+```JavaScript
+pie.tooltip.position.setValueY(int); // Sets the y-position of the tooltip value field.
+pie.tooltip.position.getValueY();       // Returns the y-position of the tooltip value field.
+```
+
+## get Position
+
+```JavaScript
+pie.tooltip.position.getPosition() // Returns the properties of the tooltip.position object
+
+// #=> {
+//   x: ..,
+//   y: ..,
+//   dx: ..,
+//   dy: ..
+// };
+```
