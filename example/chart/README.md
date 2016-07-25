@@ -17,19 +17,19 @@ pie.chart.getHashId();   // Returns the id of the `<g>` element with '#' prefix.
 
 _Optional._
 
-Please see [extended font documentation](chart/font/).
+Please see [extended font documentation](font/).
 
 ## Chart position
 
 _Optional._
 
-Please see [extended position documentation](chart/position/).
+Please see [extended position documentation](position/).
 
 ## Chart dimension
 
 _Optional._
 
-Please see [extended dimension documentation](chart/dimension/).
+Please see [extended dimension documentation](dimension/).
 
 ## Get chart
 
