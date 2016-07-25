@@ -1,35 +1,47 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# Tooltip properties
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+## Tooltip ID
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
+_`pie.tooltip.setId(str)` - Optional, defaults to `<SVGId>_tooltip`._
 
-  (ID of an existing element that the chart will be displayed in)
+```JavaScript
+pie.tooltip.setId(string); // Sets the id of the <g> element.
+pie.tooltip.getId();       // Returns the id of the <g> element.
+pie.tooltip.getHashId();   // Returns the id of the <g> element with '#' prefix.
+```
 
-- set chart id with <code> pie.setId(string) </code>
+## Tooltip font
 
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
+_Optional._
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+Please see [extended font documentation](tooltip/font/).
+
+## Tooltip position
+
+_Optional._
+
+Please see [extended position documentation](tooltip/position/).
+
+## Tooltip dimension
+
+_Optional._
+
+Please see [extended dimension documentation](tooltip/dimension/).
+
+## Tooltip get
+
+_`tooltip.getTooltip()` - Optional, returns the properties of the tooltip object._
+
+```JavaScript
+pie.tooltip.getTooltip();
+
+// #=> {
+//   id: ..,
+//   font: ..,
+//   position: ..,
+//   dimension: ..
+// }
+```
