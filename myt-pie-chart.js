@@ -561,125 +561,160 @@
             "#0000e6", "#00e600", "#e6e600", "#ac00e6", "#e60000", "#ac7339", "#e600e6", "#e65c00", "#00e6e6", "#73e600", // 10th layer at 45%
           ]),
 
+        width: 0,
+        height: 0,
+        radius: 0,
+        svg: null,
+        pie: null,
+        arc: null,
+        labelArc: null,
+        arcs: null,
+
         display: function(){
-          var id = this.id;
-          var container = this.container == 'body' ? this.container : ('#' + this.container);
+          this.width = 960,
+          this.height = 500,
+          this.radius = Math.min(this.width, this.height) / 2;
 
-          var color = this.color;
-          var chart = this.chart;
-          var tooltip = this.tooltip;
-          var data = this.data;
+          this.pie = d3.layout.pie()
+            .value(function(d) { return d.value; })
+            .sort(null);
 
-          this.graphics.data = this.data;
+          this.arc = d3.svg.arc()
+            .innerRadius(this.radius - 245)
+            .outerRadius(this.radius - 20);
 
-          // Create chart arc
-          this.graphics.arc = d3.svg.arc()
-            .outerRadius(chart.dimension.getRadius() - 10)
-            .innerRadius(0);
+          this.labelArc = d3.svg.arc()
+            .outerRadius(this.radius - 30)
+            .innerRadius(this.radius - 130);
 
-          // Create label arc
-          this.graphics.labelArc = d3.svg.arc()
-            .outerRadius(chart.dimension.getRadius() - 30)
-            .innerRadius(chart.dimension.getRadius() - 130);
+          this.svg = d3.select('#' + this.getId()).append("svg")
+              .attr("width", this.width)
+              .attr("height", this.height)
+            .append("g")
+              .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")")
+              .attr("id", this.chart.getId());
 
-          // Create pie layout
-          this.graphics.pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.value; });
+          this.arcs = this.svg.selectAll(".arc");
+          console.log(this.svg);
+          console.log(this.getId());
 
-          if(this.graphics.svg)
-            this.graphics.svg.remove();
+          this.update();
+        },
 
-          // Create SVG element
-          this.graphics.svg = d3.select(container).append('svg')
-            .attr('width', this.width)
-            .attr('height', this.height)
-            .attr('id', this.id);
+        update: function(){
 
-          // Create chart container within svg
-          this.graphics.g = this.graphics.svg.append('g')
-            .attr('transform', 'translate(' + chart.position.getX() + ', ' + chart.position.getY() + ')')
-            .attr('id', chart.getId());
+            color = this.color;
+            console.log(color);
 
-          // Create tooltip container within svg
-          this.graphics.tooltip = this.graphics.svg.append('g')
-            .attr('transform', 'translate(' + tooltip.position.getX() + ', ' + tooltip.position.getY() + ')')
-            .attr('id', tooltip.getId())
-            .attr('opacity', 0);
+            this.arcs.each(function(){
+                if(!d3.select(this).select('path')[0][0])
+                  d3.select(this).remove();
+              });
 
-          // Add rectangle
-          this.graphics.svg.select('#' + tooltip.getId()).append('rect')
-            .attr('width', tooltip.dimension.getWidth())
-            .attr('height', tooltip.dimension.getHeight());
+            var data0 = this.arcs.data(),
+                data1 = this.pie(this.data);
 
-          // Add first text
-          this.graphics.svg.select('#' + this.id + '_tooltip').append('text')
-            .attr('x', tooltip.position.getNameX())
-            .attr('y', tooltip.position.getNameY())
-            .style("font-family", tooltip.font.getFamily())
-            .style("font-size", tooltip.font.getSize() + tooltip.font.getSizeType())
-            .style("font-variant", tooltip.font.getVariant())
-            .style("font-style", tooltip.font.getStyle())
-            .style("font-weight", tooltip.font.getWeight())
-            .attr('id', tooltip.getId() + '_name');
+            console.log(this.data);
+            console.log(this.pie(this.data));
 
-          // Add second text
-          this.graphics.svg.select('#' + this.id + '_tooltip').append('text')
-            .attr('x', tooltip.position.getValueX())
-            .attr('y', tooltip.position.getValueY())
-            .style("font-family", tooltip.font.getFamily())
-            .style("font-size", tooltip.font.getSize() + tooltip.font.getSizeType())
-            .style("font-variant", tooltip.font.getVariant())
-            .style("font-style", tooltip.font.getStyle())
-            .style("font-weight", tooltip.font.getWeight())
-            .attr('id', tooltip.getId() + '_value');
+            console.log(data0);
+            console.log(data1);
 
-          // Draw the slices
-          var g = this.graphics.svg.select('#' + chart.getId()).selectAll('.arc')
-            .data(this.graphics.pie(this.data))
-            .enter().append('g')
-            .attr('class', 'arc')
-            .attr('transition', 0.5)
-            .on('mouseover', function(d){
-              d3.select('#' + tooltip.getId())
-                .attr('opacity', 1)
-                .attr('fill', d.data.bgColor ? d.data.bgColor : color(d.data.name));
+            this.arcs = this.arcs.data(data1, key);
 
-              d3.select('#' + tooltip.getId() + '_name')
-                .attr('fill', d.data.color ? d.data.color : 'black')
-                .text('Name: ' + d.data.name);
+            var g = this.arcs.enter()
+              .append("g")
+                .attr("class", "arc");
 
-              d3.select('#' + tooltip.getId() + '_value')
-                .attr('fill', d.data.color ? d.data.color : 'black')
-                .text('Value: ' + d.data.value);
-            })
-            .on('mouseout', function(d){
-              d3.select('#' + tooltip.getId())
-                .attr('opacity', 0);
-            });
-
+            var arc = this.arc;
             g.append("path")
-              .attr("d", this.graphics.arc)
-              .style("fill", function(d) { return d.data.bgColor ? d.data.bgColor : color(d.data.name); })
-              .style("opacity", "0.7")
-              .on('mouseover', function() { d3.select(this).style("opacity", 1); })
-              .on('mouseout', function() { d3.select(this).style("opacity", 0.7); });
+              .each(function(d, i) { this._arc = arc; this._current = findNeighborArc(i, data0, data1, key) || d; })
+              .attr("fill", function(d) { return color(d.data.name); });
 
-            var graphics = this.graphics;
+            var labelArc = this.labelArc;
+
             g.append("text")
-              .attr("transform", function(d) { return "translate(" + graphics.labelArc.centroid(d) + ")"; })
-              .attr('fill', function(d){
-                return d.data.color ? d.data.color :'black';
-              })
-              .attr("dx", chart.label.position.dx)
-              .attr("dy", chart.label.position.dy)
-              .style("opacity", "1")
-              .style("font-family", chart.font.getFamily())
-              .style("font-size", chart.font.getSize() + chart.font.getSizeType())
-              .style("font-variant", chart.font.getVariant())
-              .style("font-style", chart.font.getStyle())
-              .style("font-weight", chart.font.getWeight())
-              .text(function(d) { return d.data.name; });
+              .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+              .attr("dx", "-2em")
+              .style("font-size", "16px")
+              .text(function(d){ return d.data.name;})
+              .style("opacity", 0)
+              .transition()
+                .duration(1250)
+                .style("opacity", 1);
+
+            var g_remove = this.arcs.exit();
+            g_remove.select("path")
+                .datum(function(d, i) { return findNeighborArc(i, data1, data0, key) || d; })
+              .transition()
+                .duration(750)
+                .attrTween("d", arcTween)
+                .remove();
+            g_remove.select("text")
+                .datum(function(d, i) { return findNeighborArc(i, data1, data0, key) || d; })
+              .transition()
+                .duration(450)
+                .style("opacity", 0)
+                .remove();
+
+            //console.log(d3.selectAll('.arc').each(function(d, i){ console.log(d3.select(this).select("path")); }));
+
+            this.arcs.select("path")
+              .transition()
+                .duration(750)
+                .attrTween("d", arcTween);
+            this.arcs.select("text")
+                .style("opacity", 0)
+                .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+                .transition()
+                  .duration(750)
+                  .style("opacity", 1);
+
+                  function key(d) {
+                    return d.data.name;
+                  }
+
+                  function type(d) {
+                    d.count = +d.count;
+                    return d;
+                  }
+
+                  function findNeighborArc(i, data0, data1, key) {
+                    var d;
+                    return (d = findPreceding(i, data0, data1, key)) ? {startAngle: d.endAngle, endAngle: d.endAngle}
+                        : (d = findFollowing(i, data0, data1, key)) ? {startAngle: d.startAngle, endAngle: d.startAngle}
+                        : null;
+                  }
+
+                  // Find the element in data0 that joins the highest preceding element in data1.
+                  function findPreceding(i, data0, data1, key) {
+                    var m = data0.length;
+                    while (--i >= 0) {
+                      var k = key(data1[i]);
+                      for (var j = 0; j < m; ++j) {
+                        if (key(data0[j]) === k) return data0[j];
+                      }
+                    }
+                  }
+
+                  // Find the element in data0 that joins the lowest following element in data1.
+                  function findFollowing(i, data0, data1, key) {
+                    var n = data1.length, m = data0.length;
+                    while (++i < n) {
+                      var k = key(data1[i]);
+                      for (var j = 0; j < m; ++j) {
+                        if (key(data0[j]) === k) return data0[j];
+                      }
+                    }
+                  }
+
+                  function arcTween(d) {
+                    console.log(this);
+                    var arc = this._arc;
+                    var i = d3.interpolate(this._current, d);
+                    this._current = i(0);
+                    return function(t) { return arc(i(t)); };
+                  }
         }
       }
     },
