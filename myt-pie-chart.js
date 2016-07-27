@@ -571,8 +571,8 @@
         arcs: null,
 
         display: function(){
-          this.width = 960,
-          this.height = 500,
+          // this.width = 960,
+          // this.height = 500,
           this.radius = Math.min(this.width, this.height) / 2;
 
           this.pie = d3.layout.pie()
@@ -583,9 +583,19 @@
             .innerRadius(this.radius - 245)
             .outerRadius(this.radius - 20);
 
+          var offset = 0;
+          if(this.chart.font.getSizeType() === "px"){
+            offset = (this.chart.font.getSize() - 20) / 2 * 15;
+            console.log(this.chart.font.getSize());
+          }
+          else {
+            console.log(this.chart.font.getSizeType());
+          }
           this.labelArc = d3.svg.arc()
-            .outerRadius(this.radius - 30)
+            .outerRadius(this.radius - 40 - offset)
             .innerRadius(this.radius - 130);
+
+          console.log("offset = " + offset);
 
           this.svg = d3.select('#' + this.getId()).append("svg")
               .attr("width", this.width)
@@ -595,8 +605,6 @@
               .attr("id", this.chart.getId());
 
           this.arcs = this.svg.selectAll(".arc");
-          console.log(this.svg);
-          console.log(this.getId());
 
           this.update();
         },
@@ -624,7 +632,10 @@
 
             var g = this.arcs.enter()
               .append("g")
-                .attr("class", "arc");
+                .attr("class", "arc")
+                .on("click", function(d){
+                  console.log(d.data);
+                });
 
             var arc = this.arc;
             g.append("path")
@@ -636,7 +647,7 @@
             g.append("text")
               .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
               .attr("dx", "-2em")
-              .style("font-size", "16px")
+              .style("font-size", this.chart.font.getSize() + this.chart.font.getSizeType())
               .text(function(d){ return d.data.name;})
               .style("opacity", 0)
               .transition()
