@@ -6,7 +6,7 @@
   <script src="myt-pie-chart.js"></script>
 </head>
 <body>
-  <div id="demo"></div>
+  <div id="demo" style="background-color: lightgray"></div>
   <script>
   var pie = mytPieChart.newChart();
 
@@ -19,7 +19,7 @@
       name: 'Twitter',
       value: 200,
       bgColor: '#ff9933',
-      color: 'white'
+      color: '#3b5998'
     },{
       name: 'Google+',
       value: 150,
@@ -40,7 +40,7 @@
       name: 'Twitter',
       value: 200,
       bgColor: '#ff9933',
-      color: 'white'
+      color: '#3b5998'
     },{
       name: 'Github',
       value: 200,
@@ -52,9 +52,18 @@
       bgColor: '#d73d32',
       color: 'white'
     }];
+  var data_3 = [{
+    name: 'Users',
+    value: 80,
+    bgColor: '#3b5998'
+  },{
+    name: '',
+    value: 20,
+    bgColor: 'white'
+  }]
 
   pie.setData(data_1)
-    .setWidth(600)
+    .setWidth(900)
     .setHeight(400)
     .setContainer('demo')
     .setId('demo');
@@ -76,11 +85,43 @@
   // pie.tooltip.dimension.setHeight(45);
   // pie.tooltip.dimension.setWidth(200);
 
+  // pie.chart.events
+  //   .setOnClick(function(d){})
+  //   .setOnMouseEnter(function(d){})
+  //   .setOnMouseover(function(d){})
+  //   .setOnMouseLeave(function(d){});
+
   pie.display();
-  pie.update();
+
+  // setTimeout(function(){
+  //   pie.chart.label.position.dx = "-1em";
+  //   pie.chart.label.position.dy = "-0.1em";
+  //   pie.setData(data_2);
+  //   var total = 0;
+  //   for(var x = 0; x < pie.getData().length; x++){
+  //     total += pie.getData()[x].value;
+  //   }
+  //   pie.chart.label.setTextFunc(function(d){
+  //     return Math.round((d.data.value / total) * 100) + '%';
+  //     // return d.data.name + '(' + Math.round((d.data.value / total) * 100) + '%)';
+  //   });
+  //   pie.display();
+  // }, 5000);
+
+  // setTimeout(function(){
+  //   pie.setData(data_3);
+  //   pie.chart.label.setActive(false);
+  //   pie.display();
+  // }, 1000);
+
+  // setTimeout(function(){
+  //   pie.chart.label.setActive(false);
+  //   pie.update();
+  // }, 2000);
+
 
   </script>
-  <input type="button" value="Change datasets" onclick="javascript: pie.setWidth(900).setHeight(600); (pie.getData() == data_1) ? pie.setData(data_2) : pie.setData(data_1); pie.update();"/>
+  <input type="button" value="Change datasets" onclick="javascript: (pie.getData() == data_1) ? pie.setData(data_2) : pie.setData(data_1); pie.display();"/>
 </body>
 
 </html>

@@ -40,6 +40,7 @@
         setWidth: function(w){
           this.width = w;
           this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
+          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
           this.chart.position.setX(this.width / 3);
           this.chart.position.setY(this.height / 2);
           this.tooltip.position.setX(this.width / 1.6);
@@ -55,6 +56,7 @@
         setHeight: function(h){
           this.height = h;
           this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
+          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
           this.chart.position.setX(this.width / 3);
           this.chart.position.setY(this.height / 2);
           this.tooltip.position.setY(this.height / 10);
@@ -259,16 +261,40 @@
               return this.radius;
             },
 
+            centerRadius: 150,
+            setCenterRadius: function(cr){
+              this.centerRadius = cr;
+
+              return this;
+            },
+
             // Returns all dimension properties
             getDimension: function(){
               return {
-                radius: this.radius
+                radius: this.radius,
+                centerRadius: this.centerRadius
               }
             }
 
           },
 
           label: {
+            active: true,
+            setActive: function(a){
+              this.active = a;
+
+              return this;
+            },
+
+            textFunc: function(d){
+              return d.data.name;
+            },
+            setTextFunc: function(tf){
+              this.textFunc = tf;
+
+              return this;
+            },
+
             position: {
               dx: "-2.5em",
               dy: "0.1em"
@@ -276,10 +302,55 @@
 
             getLabel: function(){
               return {
+                active: this.active,
                 positions: {
                   dx: this.position.dx,
                   dy: this.position.dy
                 }
+              }
+            }
+          },
+
+          events: {
+            onClick: function(d){},
+            setOnClick: function(f){
+              this.onClick = f;
+
+              return this;
+            },
+
+            onMouseOver: function(d){
+              d3.select(this).select("path").style("opacity", 1);
+              d3.select(this).select('text').style("cursor", "default");
+            },
+            setOnMouseOver: function(f){
+              this.onMouseOver = f;
+
+              return this;
+            },
+
+            onMouseEnter: function(d){},
+            setOnMouseEnter: function(f){
+              this.onMouseEnter = f;
+
+              return this;
+            },
+
+            onMouseLeave: function(d){
+              d3.select(this).select("path").style("opacity", 0.7);
+            },
+            setOnMouseLeave: function(f){
+              this.onMouseLeave = f;
+
+              return this;
+            },
+
+            getEvents: function(){
+              return {
+                onClick: this.onClick,
+                onMouseOver: this.onMouseOver,
+                onMouseEnter: this.onMouseEnter,
+                onMouseLeave: this.onMouseLeave
               }
             }
           },
@@ -290,7 +361,8 @@
               font: this.font.getFont(),
               position: this.position.getPosition(),
               dimension: this.dimension.getDimension(),
-              label: this.label.getLabel()
+              label: this.label.getLabel(),
+              events: this.events.getEvents()
             }
           }
 
@@ -580,7 +652,7 @@
             .sort(null);
 
           this.arc = d3.svg.arc()
-            .innerRadius(this.radius - 245)
+            .innerRadius(this.radius - this.chart.dimension.centerRadius)
             .outerRadius(this.radius - 20);
 
           var offset = 0;
@@ -596,6 +668,10 @@
             .innerRadius(this.radius - 130);
 
           console.log("offset = " + offset);
+
+          if(this.svg != null){
+            return this.update();
+          }
 
           this.svg = d3.select('#' + this.getId()).append("svg")
               .attr("width", this.width)
@@ -614,7 +690,7 @@
             color = this.color;
             console.log(color);
 
-            this.arcs.each(function(){
+            this.svg.selectAll('.arc').each(function(){
                 if(!d3.select(this).select('path')[0][0])
                   d3.select(this).remove();
               });
@@ -633,26 +709,35 @@
             var g = this.arcs.enter()
               .append("g")
                 .attr("class", "arc")
-                .on("click", function(d){
-                  console.log(d.data);
-                });
+                .on("click", this.chart.events.onClick)
+                .on("mouseover", this.chart.events.onMouseOver)
+                .on("mouseenter", this.chart.events.onMouseEnter)
+                .on("mouseout", this.chart.events.onMouseLeave);
 
             var arc = this.arc;
             g.append("path")
               .each(function(d, i) { this._arc = arc; this._current = findNeighborArc(i, data0, data1, key) || d; })
-              .attr("fill", function(d) { return color(d.data.name); });
+              .attr("fill", function(d) { return d.data.bgColor ? d.data.bgColor : color(d.data.name); })
+              .style("opacity", 0.7);
 
             var labelArc = this.labelArc;
 
+            // Need to reorganize code so the label text can be displayed again if user wants it to.
             g.append("text")
               .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-              .attr("dx", "-2em")
-              .style("font-size", this.chart.font.getSize() + this.chart.font.getSizeType())
-              .text(function(d){ return d.data.name;})
-              .style("opacity", 0)
-              .transition()
-                .duration(1250)
-                .style("opacity", 1);
+              .attr("fill", function(d){ return d.data.color ? d.data.color : 'black'; })
+              .attr("dx", this.chart.label.position.dx)
+              .attr("dy", this.chart.label.position.dy)
+              .style("font-size", this.chart.font.getSize() + this.chart.font.getSizeType());
+
+            if(this.chart.label.active){
+              g.select('text')
+                .transition()
+                  .duration(1250)
+                  .style("opacity", 1);
+            } else {
+              this.svg.selectAll('.arc').select('text').remove();
+            }
 
             var g_remove = this.arcs.exit();
             g_remove.select("path")
@@ -661,6 +746,7 @@
                 .duration(750)
                 .attrTween("d", arcTween)
                 .remove();
+
             g_remove.select("text")
                 .datum(function(d, i) { return findNeighborArc(i, data1, data0, key) || d; })
               .transition()
@@ -676,56 +762,56 @@
                 .attrTween("d", arcTween);
             this.arcs.select("text")
                 .style("opacity", 0)
+                .text(this.chart.label.textFunc)
                 .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
                 .transition()
                   .duration(750)
                   .style("opacity", 1);
 
-                  function key(d) {
-                    return d.data.name;
-                  }
+            function key(d) {
+              return d.data.name;
+            }
 
-                  function type(d) {
-                    d.count = +d.count;
-                    return d;
-                  }
+            function type(d) {
+              d.count = +d.count;
+              return d;
+            }
 
-                  function findNeighborArc(i, data0, data1, key) {
-                    var d;
-                    return (d = findPreceding(i, data0, data1, key)) ? {startAngle: d.endAngle, endAngle: d.endAngle}
-                        : (d = findFollowing(i, data0, data1, key)) ? {startAngle: d.startAngle, endAngle: d.startAngle}
-                        : null;
-                  }
+            function findNeighborArc(i, data0, data1, key) {
+              var d;
+              return (d = findPreceding(i, data0, data1, key)) ? {startAngle: d.endAngle, endAngle: d.endAngle}
+                : (d = findFollowing(i, data0, data1, key)) ? {startAngle: d.startAngle, endAngle: d.startAngle}
+                : null;
+            }
 
-                  // Find the element in data0 that joins the highest preceding element in data1.
-                  function findPreceding(i, data0, data1, key) {
-                    var m = data0.length;
-                    while (--i >= 0) {
-                      var k = key(data1[i]);
-                      for (var j = 0; j < m; ++j) {
-                        if (key(data0[j]) === k) return data0[j];
-                      }
-                    }
-                  }
+            // Find the element in data0 that joins the highest preceding element in data1.
+            function findPreceding(i, data0, data1, key) {
+              var m = data0.length;
+              while (--i >= 0) {
+                var k = key(data1[i]);
+                for (var j = 0; j < m; ++j) {
+                  if (key(data0[j]) === k) return data0[j];
+                }
+              }
+            }
 
-                  // Find the element in data0 that joins the lowest following element in data1.
-                  function findFollowing(i, data0, data1, key) {
-                    var n = data1.length, m = data0.length;
-                    while (++i < n) {
-                      var k = key(data1[i]);
-                      for (var j = 0; j < m; ++j) {
-                        if (key(data0[j]) === k) return data0[j];
-                      }
-                    }
-                  }
+            // Find the element in data0 that joins the lowest following element in data1.
+            function findFollowing(i, data0, data1, key) {
+              var n = data1.length, m = data0.length;
+              while (++i < n) {
+                var k = key(data1[i]);
+                for (var j = 0; j < m; ++j) {
+                  if (key(data0[j]) === k) return data0[j];
+                }
+              }
+            }
 
-                  function arcTween(d) {
-                    console.log(this);
-                    var arc = this._arc;
-                    var i = d3.interpolate(this._current, d);
-                    this._current = i(0);
-                    return function(t) { return arc(i(t)); };
-                  }
+            function arcTween(d) {
+              var arc = this._arc;
+              var i = d3.interpolate(this._current, d);
+              this._current = i(0);
+              return function(t) { return arc(i(t)); };
+            }
         }
       }
     },

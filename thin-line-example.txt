@@ -1,0 +1,33 @@
+<div id="demo" style="background-color: lightgray"><p style="color: black;position: absolute;
+left: 27%;
+top: 28%;
+font-size: 36px;"> Facebook <br/> <p style="font-size: 30px;color: black;position: absolute;
+left: 30%;
+top: 39%;">&nbsp8,6m</p> </p></div>
+
+
+var data_3 = [{
+  name: 'Users',
+  value: 80,
+  bgColor: '#3b5998'
+},{
+  name: '',
+  value: 20,
+  bgColor: 'white'
+}]
+
+pie.setData(data_1)
+  .setWidth(900)
+  .setHeight(400)
+  .setContainer('demo')
+  .setId('demo');
+
+pie.chart.font.setSize(18);
+
+pie.chart.label.setActive(false);
+pie.setData(data_3);
+pie.chart.events.setOnClick(function(d){
+});
+pie.chart.dimension.setCenterRadius(0);
+
+pie.display();
