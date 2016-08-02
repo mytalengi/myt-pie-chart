@@ -24,10 +24,6 @@
         // Data to be displayed in the chart_
         setData: function(d){
           this.data = d;
-          this.graphics.data = d;
-
-          this.chart.label.dx = "-2.5em";
-          this.chart.label.dy = "0.1em";
 
           return this;
         },
@@ -38,11 +34,18 @@
         width: 450,
         // Width of the SVG element
         setWidth: function(w){
-          this.width = w;
+          if(w)
+            this.width = w;
           this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
-          this.chart.position.setX(this.width / 3);
-          this.chart.position.setY(this.height / 2);
-          this.tooltip.position.setX(this.width / 1.6);
+          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
+
+          this.chart.position.setX(this.width / 2);
+          this.chart.position.setY(this.height / 1.9);
+
+          this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
+          this.tooltip.position.setY(this.height / 10);
+
+          this.title.position.setX(this.width / 2.2);
 
           return this;
         },
@@ -53,11 +56,18 @@
         height: 300,
         // Height of the SVG element
         setHeight: function(h){
-          this.height = h;
+          if(h)
+            this.height = h;
           this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
-          this.chart.position.setX(this.width / 3);
-          this.chart.position.setY(this.height / 2);
+          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
+
+          this.chart.position.setX(this.width / 2);
+          this.chart.position.setY(this.height / 1.9);
+
+          this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
           this.tooltip.position.setY(this.height / 10);
+
+          this.title.position.setY(this.height / 11);
 
           return this;
         },
@@ -87,7 +97,7 @@
           this.id = i;
           this.chart.setId(i);
           this.tooltip.setId(i);
-          this.graphics.id = i;
+          this.title.setId(i);
 
           return this;
         },
@@ -259,27 +269,99 @@
               return this.radius;
             },
 
+            centerRadius: 150,
+            setCenterRadius: function(cr){
+              this.centerRadius = cr;
+
+              return this;
+            },
+
             // Returns all dimension properties
             getDimension: function(){
               return {
-                radius: this.radius
+                radius: this.radius,
+                centerRadius: this.centerRadius
               }
             }
 
           },
 
           label: {
+            active: true,
+            setActive: function(a){
+              this.active = a;
+
+              return this;
+            },
+
+            opacity: 0,
+            setOpacity: function(o){
+              this.opacity = o;
+
+              return this;
+            },
+
+            textFunc: function(d){
+              return d.data.name;
+            },
+            setTextFunc: function(tf){
+              this.textFunc = tf;
+
+              return this;
+            },
+
             position: {
-              dx: "-2.5em",
-              dy: "0.1em"
+              dx: "-.5em",
+              dy: "0em"
             },
 
             getLabel: function(){
               return {
+                active: this.active,
                 positions: {
                   dx: this.position.dx,
                   dy: this.position.dy
                 }
+              }
+            }
+          },
+
+          // Events on each slice
+          events: {
+            onClick: function(d){},
+            setOnClick: function(f){
+              this.onClick = f;
+
+              return this;
+            },
+
+            onMouseOver: function(d){},
+            setOnMouseOver: function(f){
+              this.onMouseOver = f;
+
+              return this;
+            },
+
+            onMouseEnter: function(d){},
+            setOnMouseEnter: function(f){
+              this.onMouseEnter = f;
+
+              return this;
+            },
+
+            onMouseLeave: function(d){},
+            setOnMouseLeave: function(f){
+              this.onMouseLeave = f;
+
+              return this;
+            },
+
+            getEvents: function(){
+              return {
+                onClick: this.onClick,
+                onMouseOver: this.onMouseOver,
+                onMouseEnter: this.onMouseEnter,
+                onMouseLeave: this.onMouseLeave
               }
             }
           },
@@ -290,7 +372,8 @@
               font: this.font.getFont(),
               position: this.position.getPosition(),
               dimension: this.dimension.getDimension(),
-              label: this.label.getLabel()
+              label: this.label.getLabel(),
+              events: this.events.getEvents()
             }
           }
 
@@ -310,6 +393,13 @@
           },
           getHashId: function(){
             return '#' + this.id;
+          },
+
+          isActive: false,
+          setActive: function(a){
+            this.isActive = a;
+
+            return this;
           },
 
           font: {
@@ -530,20 +620,210 @@
 
         },
 
-        graphics: {
-          data: null,
-          id: null,
-          chart: this.chart,
-          tooltip: this.tooltip,
-          pie: null,
-          arc: null,
-          labelArc: null,
-          svg: null,
-          g: null
+        title: {
+
+          id: id + '_title',
+          // Id of the tooltip element
+          setId: function(i){
+            this.id = i + '_title';
+
+            return this;
+          },
+          getId: function(){
+            return this.id;
+          },
+          getHashId: function(){
+            return '#' + this.id;
+          },
+
+          isActive: false,
+          setActive: function(a){
+            this.isActive = a;
+
+            return this;
+          },
+
+          textFunc: function(d){},
+          setTextFunc: function(tf){
+            this.textFunc = tf;
+
+            return this;
+          },
+
+          font: {
+
+            family: "'Arial', Helvetica, sans-serif",
+            // Font family used to display tooltip text
+            setFamily: function(f){
+              this.family = f;
+              return this;
+            },
+            getFamily: function(){
+              return this.family;
+            },
+
+            size: 14,
+            // Font size to display tooltip text
+            setSize: function(s){
+              this.size = s;
+
+              return this;
+            },
+            getSize: function(){
+              return this.size;
+            },
+
+            sizeType: "px",
+            // Font size type, either 'px','em' or '%'
+            setSizeType: function(st){
+              this.sizeType = st;
+
+              return this;
+            },
+            getSizeType: function(){
+              return this.sizeType;
+            },
+
+            variant: "normal",
+            // Font variant, either 'normal' or 'small-caps'
+            setVariant: function(v){
+              this.variant = v;
+
+              return this;
+            },
+            getVariant: function(){
+              return this.variant;
+            },
+
+            weight: "normal",
+            // Font weight, either 'normal', 'bold', 'bolder', 'lighter' or number-value
+            setWeight: function(w){
+              this.weight = w;
+
+              return this;
+            },
+            getWeight: function(){
+              return this.weight;
+            },
+
+            style: "normal",
+            // Font style, either 'normal', 'italic' or 'oblique'
+            setStyle: function(s){
+              this.style = s;
+
+              return this;
+            },
+            getStyle: function(){
+              return this.style;
+            },
+
+            // Returns all properties of this font
+            getFont: function(){
+              return {
+                family: this.family,
+                size: this.size,
+                sizeType: this.sizeType,
+                variant: this.variant,
+                weight: this.weight,
+                style: this.style
+              }
+            }
+
+          },
+
+          position: {
+
+            x: 100,
+            setX: function(x){
+              this.x = x;
+
+              return this;
+            },
+            getX: function(){
+              return this.x;
+            },
+
+            y: 100,
+            setY: function(y){
+              this.y = y;
+
+              return this;
+            },
+            getY: function(){
+              return this.y;
+            },
+
+            dx: null,
+            setDX: function(dX){
+              this.dx = dX;
+
+              return this;
+            },
+            getDX: function(){
+              return this.dx;
+            },
+
+            dy: null,
+            setDY: function(dY){
+              this.dy = dY;
+
+              return this;
+            },
+            getDY: function(){
+              return this.dy;
+            },
+
+            // Returns all position properties
+            getPosition: function(){
+              return {
+                x: this.x,
+                y: this.y,
+                dx: this.dx,
+                dy: this.dy
+              }
+            }
+
+          },
+
+          getTooltip: function(){
+            return {
+              id: this.id,
+              font: this.font.getFont(),
+              position: this.position.getPosition()
+            }
+          }
+
         },
 
-        getGraphics: function(){
-          return this.graphics;
+        // Events on entire chart
+        events: {
+          onClick: function(d){},
+          setOnClick: function(f){
+            this.onClick = f;
+
+            return this;
+          },
+
+          onMouseOver: function(d){},
+          setOnMouseOver: function(f){
+            this.onMouseOver = f;
+
+            return this;
+          },
+
+          onMouseEnter: function(d){},
+          setOnMouseEnter: function(f){
+            this.onMouseEnter = f;
+
+            return this;
+          },
+
+          onMouseLeave: function(d){},
+          setOnMouseLeave: function(f){
+            this.onMouseLeave = f;
+
+            return this;
+          },
         },
 
         color: d3.scale.ordinal()
@@ -561,125 +841,257 @@
             "#0000e6", "#00e600", "#e6e600", "#ac00e6", "#e60000", "#ac7339", "#e600e6", "#e65c00", "#00e6e6", "#73e600", // 10th layer at 45%
           ]),
 
+        radius: 0,
+        svg: null,
+        g_chart: null,
+        g_tooltip: null,
+        g_title: null,
+        pie: null,
+        arc: null,
+        labelArc: null,
+        arcs: null,
+
         display: function(){
-          var id = this.id;
-          var container = this.container == 'body' ? this.container : ('#' + this.container);
+          if(this.width == 0 && this.height == 0){
+            console.log("mytPieChart: Width and height aren't set, setting them to default!");
+            this.setWidth(450);
+            this.setHeight(300);
+          }else if(this.width == 0){
+            console.log("mytPieChart: Width isn't set, setting it to default!");
+            this.setWidth(450);
+          }else if(this.height == 0){
+            console.log("mytPieChart: Height isn't set, setting it to default!");
+            this.setHeight(300);
+          }
 
-          var color = this.color;
-          var chart = this.chart;
-          var tooltip = this.tooltip;
-          var data = this.data;
+          this.radius = Math.min(this.width, this.height) / 2;
 
-          this.graphics.data = this.data;
+          console.log(d3.select('#' + this.getContainer()));
 
-          // Create chart arc
-          this.graphics.arc = d3.svg.arc()
-            .outerRadius(chart.dimension.getRadius() - 10)
-            .innerRadius(0);
+          this.pie = d3.layout.pie()
+            .value(function(d) { return d.value; })
+            .sort(null);
 
-          // Create label arc
-          this.graphics.labelArc = d3.svg.arc()
-            .outerRadius(chart.dimension.getRadius() - 30)
-            .innerRadius(chart.dimension.getRadius() - 130);
+          this.arc = d3.svg.arc()
+            .innerRadius(this.radius - this.chart.dimension.centerRadius)
+            .outerRadius(this.radius - 20);
 
-          // Create pie layout
-          this.graphics.pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.value; });
+          var offset = 0;
+          if(this.chart.font.getSizeType() === "px"){
+            offset = (this.chart.font.getSize() - 20) / 2 * 15;
+          }
+          this.labelArc = d3.svg.arc()
+            .outerRadius(this.radius - 40 - offset)
+            .innerRadius(this.radius - 130);
 
-          if(this.graphics.svg)
-            this.graphics.svg.remove();
+          if(this.svg != null){
+            return this.update();
+          }
 
-          // Create SVG element
-          this.graphics.svg = d3.select(container).append('svg')
-            .attr('width', this.width)
-            .attr('height', this.height)
-            .attr('id', this.id);
+          // Create svg container
+          this.svg = d3.select('#' + this.getContainer()).append("svg")
+              .attr("width", this.width)
+              .attr("height", this.height);
 
-          // Create chart container within svg
-          this.graphics.g = this.graphics.svg.append('g')
-            .attr('transform', 'translate(' + chart.position.getX() + ', ' + chart.position.getY() + ')')
-            .attr('id', chart.getId());
+          // Create chart container
+          this.g_chart = this.svg.append("g")
+              .attr("transform", "translate(" + this.chart.position.getX() + "," + this.chart.position.getY() + ")")
+              .attr("dx", this.chart.position.getDX())
+              .attr("dy", this.chart.position.getDY())
+              .attr("id", this.chart.getId())
+              .on("mouseover", this.events.onMouseOver)
+              .on("mouseenter", this.events.onMouseEnter)
+              .on("mouseout", this.events.onMouseLeave)
+              .on("click", this.events.onClick);
 
-          // Create tooltip container within svg
-          this.graphics.tooltip = this.graphics.svg.append('g')
-            .attr('transform', 'translate(' + tooltip.position.getX() + ', ' + tooltip.position.getY() + ')')
-            .attr('id', tooltip.getId())
-            .attr('opacity', 0);
+          // Check if tooltip is set to active
+          if(this.tooltip.isActive){
 
-          // Add rectangle
-          this.graphics.svg.select('#' + tooltip.getId()).append('rect')
-            .attr('width', tooltip.dimension.getWidth())
-            .attr('height', tooltip.dimension.getHeight());
+            // Create tooltip container
+            this.g_tooltip = this.svg.append("g")
+              .attr("transform", "translate(" + this.tooltip.position.getX() + "," + this.tooltip.position.getY() + ")")
+              .attr("dx", this.tooltip.position.getDX())
+              .attr("dy", this.tooltip.position.getDY())
+              .attr("width", this.tooltip.dimension.getWidth())
+              .attr("height", this.tooltip.dimension.getHeight())
+              .attr("id", this.tooltip.getId());
 
-          // Add first text
-          this.graphics.svg.select('#' + this.id + '_tooltip').append('text')
-            .attr('x', tooltip.position.getNameX())
-            .attr('y', tooltip.position.getNameY())
-            .style("font-family", tooltip.font.getFamily())
-            .style("font-size", tooltip.font.getSize() + tooltip.font.getSizeType())
-            .style("font-variant", tooltip.font.getVariant())
-            .style("font-style", tooltip.font.getStyle())
-            .style("font-weight", tooltip.font.getWeight())
-            .attr('id', tooltip.getId() + '_name');
+              this.g_tooltip.append("rect")
+                  .attr("width", this.tooltip.dimension.getWidth())
+                  .attr("height", this.tooltip.dimension.getHeight());
 
-          // Add second text
-          this.graphics.svg.select('#' + this.id + '_tooltip').append('text')
-            .attr('x', tooltip.position.getValueX())
-            .attr('y', tooltip.position.getValueY())
-            .style("font-family", tooltip.font.getFamily())
-            .style("font-size", tooltip.font.getSize() + tooltip.font.getSizeType())
-            .style("font-variant", tooltip.font.getVariant())
-            .style("font-style", tooltip.font.getStyle())
-            .style("font-weight", tooltip.font.getWeight())
-            .attr('id', tooltip.getId() + '_value');
+              this.g_tooltip.append("text")
+                  .attr("dx", this.tooltip.position.getNameX())
+                  .attr("dy", this.tooltip.position.getNameY())
+                  .attr("id", this.tooltip.getId() + "_name");
 
-          // Draw the slices
-          var g = this.graphics.svg.select('#' + chart.getId()).selectAll('.arc')
-            .data(this.graphics.pie(this.data))
-            .enter().append('g')
-            .attr('class', 'arc')
-            .attr('transition', 0.5)
-            .on('mouseover', function(d){
-              d3.select('#' + tooltip.getId())
-                .attr('opacity', 1)
-                .attr('fill', d.data.bgColor ? d.data.bgColor : color(d.data.name));
+              this.g_tooltip.append("text")
+                  .attr("dx", this.tooltip.position.getValueX())
+                  .attr("dy", this.tooltip.position.getValueY())
+                  .attr("id", this.tooltip.getId() + "_value");
+          }
+          else {
+            console.log("mytPieChart error: Unable to initialize tooltip or it might be disabled.");
+          }
 
-              d3.select('#' + tooltip.getId() + '_name')
-                .attr('fill', d.data.color ? d.data.color : 'black')
-                .text('Name: ' + d.data.name);
+          if(this.title.isActive){
+            // Create title
+            this.svg.append("text")
+              .attr("transform", "translate(" + this.title.position.getX() + "," + this.title.position.getY() + ")")
+              .attr("dx", this.title.position.getDX())
+              .attr("dx", this.title.position.getDY())
+              .attr("id", this.title.getId());
+          }
+          this.arcs = this.svg.select("g").selectAll(".arc");
 
-              d3.select('#' + tooltip.getId() + '_value')
-                .attr('fill', d.data.color ? d.data.color : 'black')
-                .text('Value: ' + d.data.value);
-            })
-            .on('mouseout', function(d){
-              d3.select('#' + tooltip.getId())
-                .attr('opacity', 0);
-            });
+          this.update();
+        },
 
+        update: function(){
+
+            color = this.color;
+
+            this.svg.select(this.title.getHashId())
+              .style("font-family", this.title.font.getFamily())
+              .style("font-size", this.title.font.getSize() + this.title.font.getSizeType())
+              .style("font-variant", this.title.font.getVariant())
+              .style("font-style", this.title.font.getStyle())
+              .style("font-weight", this.title.font.getWeight())
+              .text(this.title.textFunc);
+
+            // Removed unused tags
+            this.svg.selectAll('.arc').each(function(){
+                if(!d3.select(this).select('path')[0][0])
+                  d3.select(this).remove();
+              });
+
+            var data0 = this.arcs.length != 0 ? this.arcs.data() : this.pie([]),
+                data1 = this.pie(this.data);
+
+            this.arcs = this.arcs.data(data1, key);
+
+            var g = this.arcs.enter()
+              .append("g")
+                .attr("class", "arc")
+                .on("click", this.chart.events.onClick)
+                .on("mouseover", this.chart.events.onMouseOver)
+                .on("mouseenter", this.chart.events.onMouseEnter)
+                .on("mouseout", this.chart.events.onMouseLeave);
+
+            var arc = this.arc;
             g.append("path")
-              .attr("d", this.graphics.arc)
-              .style("fill", function(d) { return d.data.bgColor ? d.data.bgColor : color(d.data.name); })
-              .style("opacity", "0.7")
-              .on('mouseover', function() { d3.select(this).style("opacity", 1); })
-              .on('mouseout', function() { d3.select(this).style("opacity", 0.7); });
+              .each(function(d, i) { this._arc = arc; this._current = findNeighborArc(i, data0, data1, key) || d; })
+              .attr("fill", function(d) { return d.data.bgColor ? d.data.bgColor : color(d.data.name); })
+              .style("opacity", 1);
 
-            var graphics = this.graphics;
+            var labelArc = this.labelArc;
+            // Need to reorganize code so the label text can be displayed again if user wants it to.
             g.append("text")
-              .attr("transform", function(d) { return "translate(" + graphics.labelArc.centroid(d) + ")"; })
-              .attr('fill', function(d){
-                return d.data.color ? d.data.color :'black';
-              })
-              .attr("dx", chart.label.position.dx)
-              .attr("dy", chart.label.position.dy)
-              .style("opacity", "1")
-              .style("font-family", chart.font.getFamily())
-              .style("font-size", chart.font.getSize() + chart.font.getSizeType())
-              .style("font-variant", chart.font.getVariant())
-              .style("font-style", chart.font.getStyle())
-              .style("font-weight", chart.font.getWeight())
-              .text(function(d) { return d.data.name; });
+              .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+              .attr("fill", function(d){ return d.data.color ? d.data.color : 'black'; })
+              .attr("dx", this.chart.label.position.dx)
+              .attr("dy", this.chart.label.position.dy)
+              .style("opacity", 0)
+              .style("font-family", this.chart.font.getFamily())
+              .style("font-size", this.chart.font.getSize() + this.chart.font.getSizeType())
+              .style("font-variant", this.chart.font.getVariant())
+              .style("font-style", this.chart.font.getStyle())
+              .style("font-weight", this.chart.font.getWeight());
+
+            if(this.chart.label.active){
+              g.select('text')
+                .transition()
+                  .duration(1250)
+                  .style("opacity", this.chart.label.opacity);
+
+              console.log(this.chart.label.opacity);
+            } else {
+              this.svg.selectAll('.arc').select('text').remove();
+            }
+
+            var g_remove = this.arcs.exit();
+            g_remove.select("path")
+                .datum(function(d, i) { return findNeighborArc(i, data1, data0, key) || d; })
+              .transition()
+                .duration(750)
+                .attrTween("d", arcTween)
+                .remove();
+
+            g_remove.select("text")
+                .datum(function(d, i) { return findNeighborArc(i, data1, data0, key) || d; })
+              .transition()
+                .duration(450)
+                .style("opacity", 0)
+                .remove();
+
+            //console.log(d3.selectAll('.arc').each(function(d, i){ console.log(d3.select(this).select("path")); }));
+
+            this.arcs.select("path")
+              .transition()
+                .duration(750)
+                .attrTween("d", arcTween);
+            this.arcs.select("text")
+                .style("opacity", 0)
+                .text(this.chart.label.textFunc)
+                .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+                .transition()
+                  .duration(750)
+                  .style("opacity", this.chart.label.opacity);
+
+            function key(d) {
+              return d.data.name;
+            }
+
+            function type(d) {
+              d.count = +d.count;
+              return d;
+            }
+
+            function findNeighborArc(i, data0, data1, key) {
+              var d;
+              return (d = findPreceding(i, data0, data1, key)) ? {startAngle: d.endAngle, endAngle: d.endAngle}
+                : (d = findFollowing(i, data0, data1, key)) ? {startAngle: d.startAngle, endAngle: d.startAngle}
+                : null;
+            }
+
+            // Find the element in data0 that joins the highest preceding element in data1.
+            function findPreceding(i, data0, data1, key) {
+              var m = data0.length;
+              while (--i >= 0) {
+                var k = key(data1[i]);
+                for (var j = 0; j < m; ++j) {
+                  if (key(data0[j]) === k) return data0[j];
+                }
+              }
+            }
+
+            // Find the element in data0 that joins the lowest following element in data1.
+            function findFollowing(i, data0, data1, key) {
+              var n = data1.length, m = data0.length;
+              while (++i < n) {
+                var k = key(data1[i]);
+                for (var j = 0; j < m; ++j) {
+                  if (key(data0[j]) === k) return data0[j];
+                }
+              }
+            }
+
+            function arcTween(d) {
+              var arc = this._arc;
+              var i = d3.interpolate(this._current, d);
+              this._current = i(0);
+              return function(t) { return arc(i(t)); };
+            }
+        },
+
+        delete: function(){
+          this.svg = null;
+          d3.select('#' + this.id).select("svg").remove();
+        },
+
+        restart: function(){
+          this.delete();
+          this.display();
         }
       }
     },
