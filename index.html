@@ -4,10 +4,189 @@
 
   <script src="d3.js"></script>
   <script src="myt-pie-chart.js"></script>
+
+  <style>
+    .chart {
+      display: inline-block;
+    }
+
+    #charts {
+      text-align: center;
+    }
+
+    #visitors {
+      text-align: center;
+    }
+
+    .chart-text {
+      margin-bottom: -15px;
+    }
+  </style>
 </head>
 <body>
+  <div id="visitors"> Total Website Visits Last Month: 4000 </div>
+  <section id="charts">
+    <div id="chart1" class="chart"><p class="chart-text">Searches<br/> 2,500</p></div>
+    <div id="chart2" class="chart"><p class="chart-text">Registrations<br/> 1,000</p></div>
+    <div id="chart3" class="chart"><p class="chart-text">Subscriptions<br/> 500</p></div>
+  </section>
   <div id="demo" style="background-color: lightgray"></div>
   <script>
+
+  var chart1_data_old = [
+    {
+      name: 'Searches',
+      value: 1,
+      bgColor: '#3b5998',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 99,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart1_data = [
+    {
+      name: 'Searches',
+      value: 62.5,
+      bgColor: '#3b5998',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 37.5,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart1 = mytPieChart.newChart();
+  chart1.setData(chart1_data_old)
+    .setWidth(300)
+    .setHeight(300)
+    .setContainer('chart1')
+    .setId("_chart1");
+
+  chart1.chart.label.position.dx = "-3em";
+  chart1.chart.label.position.dy = "1em";
+
+  var chart1total = 0;
+  for(var x = 0; x < chart1_data.length; x++){
+    chart1total += chart1_data[x].value;
+  }
+  chart1.chart.label.setTextFunc(function(d){
+    if(d.data.name == 'Searches')
+    return Math.round((d.data.value / chart1total) * 100) + '%';
+  });
+  chart1.chart.events.setOnMouseOver();
+
+  chart1.display();
+
+  chart1.setData(chart1_data);
+  chart1.display();
+
+
+  var chart2_data_old = [
+    {
+      name: 'Registrations',
+      value: 0,
+      bgColor: '#78ce5a',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 1,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart2_data = [
+    {
+      name: 'Registrations',
+      value: 25,
+      bgColor: '#78ce5a',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 75,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart2 = mytPieChart.newChart();
+  chart2.setData(chart2_data_old)
+    .setWidth(300)
+    .setHeight(300)
+    .setContainer('chart2')
+    .setId("_chart2");
+
+  chart2.chart.label.position.dx = "-1.7em";
+  chart2.chart.label.position.dy = "1.5em";
+
+  var chart2total = 0;
+  for(var x = 0; x < chart2_data.length; x++){
+    chart2total += chart2_data[x].value;
+  }
+  chart2.chart.label.setTextFunc(function(d){
+    if(d.data.name == 'Registrations')
+    return Math.round((d.data.value / chart2total) * 100) + '%';
+  });
+  chart2.chart.events.setOnMouseOver();
+  chart2.display();
+
+  chart2.setData(chart2_data);
+  chart2.display();
+
+  var chart3_data_old = [
+    {
+      name: 'Subscriptions',
+      value: 0,
+      bgColor: '#d73d32',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 1,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart3_data = [
+    {
+      name: 'Subscriptions',
+      value: 12.5,
+      bgColor: '#d73d32',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 87.5,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart3 = mytPieChart.newChart();
+  chart3.setData(chart3_data_old)
+    .setWidth(300)
+    .setHeight(300)
+    .setContainer('chart3')
+    .setId("_chart3");
+
+
+    chart3.chart.label.position.dx = "-1.0em";
+    chart3.chart.label.position.dy = "0em";
+    chart3.chart.font.setSize(12);
+    var chart3total = 0;
+    for(var x = 0; x < chart3_data.length; x++){
+      chart3total += chart3_data[x].value;
+    }
+    chart3.chart.label.setTextFunc(function(d){
+      if(d.data.name == 'Subscriptions')
+      return Math.round((d.data.value / chart3total) * 100) + '%';
+    });
+    chart3.chart.events.setOnMouseOver();
+    chart3.display();
+
+    chart3.setData(chart3_data);
+    chart3.display();
+
+
   var pie = mytPieChart.newChart();
 
   var data_1 = [{
@@ -65,7 +244,7 @@
   pie.setData(data_1)
     .setWidth(900)
     .setHeight(400)
-    .setContainer('demo')
+    // .setContainer('demo')
     .setId('demo');
 
   pie.chart.font.setSize(18);
@@ -84,12 +263,38 @@
   // pie.tooltip.position.setValueY(40);
   // pie.tooltip.dimension.setHeight(45);
   // pie.tooltip.dimension.setWidth(200);
+  pie.chart.dimension.setCenterRadius(170);
 
-  // pie.chart.events
-  //   .setOnClick(function(d){})
-  //   .setOnMouseEnter(function(d){})
-  //   .setOnMouseover(function(d){})
-  //   .setOnMouseLeave(function(d){});
+  var demo = d3.select('#demo');
+
+  pie.chart.events
+    .setOnClick(function(d){})
+    .setOnMouseEnter(function(d){})
+    .setOnMouseOver(function(d){
+      if(d.data.value == 60){
+        demo.append('text').text('40%');
+      }
+    })
+    .setOnMouseLeave(function(d){
+      if(d.data.value == 60){
+        console.log(d3.select(this).select('text').text('60%'));
+      }
+    });
+  pie.setData([
+    {
+      name: '60%',
+      value: 60,
+      bgColor:'#3b5998',
+      color: 'black'
+    },
+    {
+      name: '',
+      value: 40,
+      bgColor: 'gray'
+    }
+  ]);
+  pie.chart.label.position.dx = "-7.4em";
+  pie.chart.label.position.dy = "-1.7em";
 
   pie.display();
 
@@ -118,7 +323,7 @@
   //   pie.chart.label.setActive(false);
   //   pie.update();
   // }, 2000);
-
+  mytPieChart.newChart().setData([{name: '1', value: 1},{name: '2', value: 2}]).setContainer('demo').display();
 
   </script>
   <input type="button" value="Change datasets" onclick="javascript: (pie.getData() == data_1) ? pie.setData(data_2) : pie.setData(data_1); pie.display();"/>

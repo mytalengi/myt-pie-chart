@@ -1,0 +1,277 @@
+<html>
+
+<head>
+
+  <!-- Load c3.css -->
+  <link href="c3.css" rel="stylesheet" type="text/css">
+
+  <script src="d3.js"></script>
+  <!-- Load d3.js and c3.js -->
+  <script src="c3.min.js"></script>
+
+  <script src="myt-pie-chart.js"></script>
+
+  <style>
+    .chart {
+      display: inline-block;
+    }
+
+    #charts {
+      text-align: center;
+    }
+
+    #visitors {
+      text-align: center;
+    }
+
+    .chart-text {
+      margin-bottom: -15px;
+    }
+
+    #line *{
+      stroke-width: 3px;
+    }
+
+    #line {
+      width: 70%;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <input type="radio" name="line-type" value="Lines" checked onchange="changeToLines()"> Lines </input>
+    <input type="radio" name="line-type" value="Bars" onchange="changeToBars()"> Bars </input>
+  </div>
+  <div id="visitors"> Total Website Visits Last Month: 4000 </div>
+  <section id="charts">
+    <div id="chart1" class="chart"><p class="chart-text">Searches</p></div>
+    <div id="chart2" class="chart"><p class="chart-text">Registrations</p></div>
+    <div id="chart3" class="chart"><p class="chart-text">Subscriptions</p></div>
+  </section>
+  <hr/>
+  <div id="line"></div>
+  <!-- <div id="demo" style="background-color: lightgray"></div> -->
+  <script>
+
+  var line_chart = c3.generate({
+    bindto: '#line',
+    data: {
+      columns: [
+        ['Searches', 30, 200, 100, 400, 150, 250],
+        ['Registrations', 50, 20, 10, 40, 15, 25],
+        ['Subscriptions', 150, 120, 110, 140, 115, 125]
+      ],
+      types: {
+        Searches: 'line',
+        Registrations: 'line',
+        Subscriptions: 'line'
+      },
+      colors: {
+        Searches: '#3b5998',
+        Registrations: '#78ce5a',
+        Subscriptions: '#d73d32'
+      }
+    }
+  });
+  function changeToLines(){
+    line_chart.transform('line');
+    line_chart.groups();
+  }
+
+  function changeToBars(){
+    line_chart.transform('bar');
+    line_chart.groups([['Searches', 'Registrations', 'Subscriptions']]);
+  }
+
+  var chart1_data_old = [
+    {
+      name: 'Searches',
+      value: 1,
+      bgColor: '#3b5998',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 99,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart1_data = [
+    {
+      name: 'Searches',
+      value: 62.5,
+      bgColor: '#3b5998',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 37.5,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart1 = mytPieChart.newChart();
+  chart1.setData(chart1_data_old)
+    .setWidth(300)
+    .setHeight(300)
+    .setContainer('chart1')
+    .setId("_chart1");
+
+  chart1.chart.label.position.dx = "-3em";
+  chart1.chart.label.position.dy = "1em";
+
+  var chart1total = 0;
+  for(var x = 0; x < chart1_data.length; x++){
+    chart1total += chart1_data[x].value;
+  }
+  chart1.chart.label.setTextFunc(function(d){
+    if(d.data.name == 'Searches')
+    return Math.round((d.data.value / chart1total) * 100) + '%';
+  });
+  chart1.chart.events.setOnMouseOver();
+  chart1.chart.events.setOnMouseLeave();
+  chart1.chart.events.setOnClick(function(d){
+    if(d3.select(this).select('path').style('opacity') == 0.7){
+      d3.select(this).select('path').style('opacity', 1);
+      line_chart.show(['Searches']);
+    }
+    else{
+      d3.select(this).select('path').style('opacity', 0.7);
+      line_chart.hide(['Searches']);
+    }
+  });
+
+  chart1.display();
+
+  chart1.setData(chart1_data);
+  chart1.display();
+
+
+  var chart2_data_old = [
+    {
+      name: 'Registrations',
+      value: 0,
+      bgColor: '#78ce5a',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 1,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart2_data = [
+    {
+      name: 'Registrations',
+      value: 25,
+      bgColor: '#78ce5a',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 75,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart2 = mytPieChart.newChart();
+  chart2.setData(chart2_data_old)
+    .setWidth(300)
+    .setHeight(300)
+    .setContainer('chart2')
+    .setId("_chart2");
+
+  chart2.chart.label.position.dx = "-1.7em";
+  chart2.chart.label.position.dy = "1.5em";
+
+  var chart2total = 0;
+  for(var x = 0; x < chart2_data.length; x++){
+    chart2total += chart2_data[x].value;
+  }
+  chart2.chart.label.setTextFunc(function(d){
+    if(d.data.name == 'Registrations')
+    return Math.round((d.data.value / chart2total) * 100) + '%';
+  });
+  chart2.chart.events.setOnMouseOver();
+  chart2.chart.events.setOnMouseLeave();
+  chart2.chart.events.setOnClick(function(d){
+    if(d3.select(this).select('path').style('opacity') == 0.7){
+      d3.select(this).select('path').style('opacity', 1);
+      line_chart.show(['Registrations']);
+    }
+    else{
+      d3.select(this).select('path').style('opacity', 0.7);
+      line_chart.hide(['Registrations']);
+    }
+  });
+  chart2.display();
+
+  chart2.setData(chart2_data);
+  chart2.display();
+
+  var chart3_data_old = [
+    {
+      name: 'Subscriptions',
+      value: 0,
+      bgColor: '#d73d32',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 1,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart3_data = [
+    {
+      name: 'Subscriptions',
+      value: 12.5,
+      bgColor: '#d73d32',
+      color: 'white'
+    },
+    {
+      name: '',
+      value: 87.5,
+      bgColor: '#e6e6e6'
+    }
+  ];
+  var chart3 = mytPieChart.newChart();
+  chart3.setData(chart3_data_old)
+    .setWidth(300)
+    .setHeight(300)
+    .setContainer('chart3')
+    .setId("_chart3");
+
+
+    chart3.chart.label.position.dx = "-1.0em";
+    chart3.chart.label.position.dy = "0em";
+    chart3.chart.font.setSize(12);
+    var chart3total = 0;
+    for(var x = 0; x < chart3_data.length; x++){
+      chart3total += chart3_data[x].value;
+    }
+    chart3.chart.label.setTextFunc(function(d){
+      if(d.data.name == 'Subscriptions')
+      return Math.round((d.data.value / chart3total) * 100) + '%';
+    });
+    chart3.chart.events.setOnMouseOver();
+    chart3.chart.events.setOnMouseLeave();
+    chart3.chart.events.setOnClick(function(d){
+      if(d3.select(this).select('path').style('opacity') == 0.7){
+        d3.select(this).select('path').style('opacity', 1);
+        line_chart.show(['Subscriptions']);
+      }
+      else{
+        d3.select(this).select('path').style('opacity', 0.7);
+        line_chart.hide(['Subscriptions']);
+      }
+    });
+    chart3.display();
+
+    chart3.setData(chart3_data);
+    chart3.display();
+
+
+  </script>
+</body>
+
+</html>
