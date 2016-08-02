@@ -67,7 +67,7 @@
           this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
           this.tooltip.position.setY(this.height / 10);
 
-          this.title.position.setY(this.height / 11);
+          this.title.position.setY(this.height / 12);
 
           return this;
         },
@@ -393,6 +393,13 @@
           },
           getHashId: function(){
             return '#' + this.id;
+          },
+
+          opacity: 1,
+          setOpacity: function(o){
+            this.opacity = o;
+
+            return this;
           },
 
           isActive: false,
@@ -866,21 +873,16 @@
         arcs: null,
 
         display: function(){
-          if(this.width == 0 && this.height == 0){
-            console.log("mytPieChart: Width and height aren't set, setting them to default!");
+          if((this.width == 0 && this.height == 0) || (this.width == 450 && this.height == 300)){
             this.setWidth(450);
             this.setHeight(300);
-          }else if(this.width == 0){
-            console.log("mytPieChart: Width isn't set, setting it to default!");
+          }else if(this.width == 0 || this.width == 450){
             this.setWidth(450);
-          }else if(this.height == 0){
-            console.log("mytPieChart: Height isn't set, setting it to default!");
+          }else if(this.height == 0 || this.height == 300){
             this.setHeight(300);
           }
 
           this.radius = Math.min(this.width, this.height) / 2;
-
-          console.log(d3.select('#' + this.getContainer()));
 
           this.pie = d3.layout.pie()
             .value(function(d) { return d.value; })
@@ -943,9 +945,6 @@
                   .attr("dx", this.tooltip.position.getValueX())
                   .attr("dy", this.tooltip.position.getValueY())
                   .attr("id", this.tooltip.getId() + "_value");
-          }
-          else {
-            console.log("mytPieChart error: Unable to initialize tooltip or it might be disabled.");
           }
 
           if(this.title.isActive){
@@ -1017,16 +1016,25 @@
                 .transition()
                   .duration(1250)
                   .style("opacity", this.chart.label.opacity);
-
-              console.log(this.chart.label.opacity);
             } else {
               this.svg.selectAll('.arc').select('text').remove();
             }
 
             if(this.tooltip.isActive){
-              this.svg.select(this.tooltip.getHashId()).select("rect").attr("fill", 'lightgray');
-              this.svg.select(this.tooltip.getHashId() + '_name').text(this.tooltip.nameText);
-              this.svg.select(this.tooltip.getHashId() + '_value').text(this.tooltip.valueText);
+              this.svg.select(this.tooltip.getHashId()).style("opacity", this.tooltip.opacity);
+              this.svg.select(this.tooltip.getHashId()).select("rect")
+                .attr("fill", 'lightgray');
+              this.svg.select(this.tooltip.getHashId() + '_name')
+                .text(this.tooltip.nameText);
+              this.svg.select(this.tooltip.getHashId() + '_value')
+                .text(this.tooltip.valueText);
+
+              this.svg.select(this.tooltip.getHashId()).selectAll("text")
+                .style("font-family", this.tooltip.font.getFamily())
+                .style("font-size", this.tooltip.font.getSize() + this.tooltip.font.getSizeType())
+                .style("font-variant", this.tooltip.font.getVariant())
+                .style("font-style", this.tooltip.font.getStyle())
+                .style("font-weight", this.tooltip.font.getWeight());
             }
 
             var g_remove = this.arcs.exit();
