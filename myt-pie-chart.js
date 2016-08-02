@@ -402,14 +402,14 @@
             return this;
           },
 
-          nameText: '',
+          nameText: function(d){},
           setNameText: function(nt){
             this.nameText = nt;
 
             return this;
           },
 
-          valueText: '',
+          valueText: function(d){},
           setValueText: function(vt){
             this.valueText = vt;
 
@@ -1023,9 +1023,12 @@
               this.svg.selectAll('.arc').select('text').remove();
             }
 
-            this.svg.select(this.tooltip.getHashId).select(this.tooltip.getHashId() + '_name').text(this.tooltip.nameText);
-            this.svg.select(this.tooltip.getHashId).select(this.tooltip.getHashId() + '_value').text(this.tooltip.valueText);
-            
+            if(this.tooltip.isActive){
+              this.svg.select(this.tooltip.getHashId()).select("rect").attr("fill", 'lightgray');
+              this.svg.select(this.tooltip.getHashId() + '_name').text(this.tooltip.nameText);
+              this.svg.select(this.tooltip.getHashId() + '_value').text(this.tooltip.valueText);
+            }
+
             var g_remove = this.arcs.exit();
             g_remove.select("path")
                 .datum(function(d, i) { return findNeighborArc(i, data1, data0, key) || d; })
