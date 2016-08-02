@@ -402,6 +402,20 @@
             return this;
           },
 
+          nameText: '',
+          setNameText: function(nt){
+            this.nameText = nt;
+
+            return this;
+          },
+
+          valueText: '',
+          setValueText: function(vt){
+            this.valueText = vt;
+
+            return this;
+          },
+
           font: {
 
             family: "'Arial', Helvetica, sans-serif",
@@ -1009,6 +1023,9 @@
               this.svg.selectAll('.arc').select('text').remove();
             }
 
+            this.svg.select(this.tooltip.getHashId).select(this.tooltip.getHashId() + '_name').text(this.tooltip.nameText);
+            this.svg.select(this.tooltip.getHashId).select(this.tooltip.getHashId() + '_value').text(this.tooltip.valueText);
+            
             var g_remove = this.arcs.exit();
             g_remove.select("path")
                 .datum(function(d, i) { return findNeighborArc(i, data1, data0, key) || d; })
@@ -1023,8 +1040,6 @@
                 .duration(450)
                 .style("opacity", 0)
                 .remove();
-
-            //console.log(d3.selectAll('.arc').each(function(d, i){ console.log(d3.select(this).select("path")); }));
 
             this.arcs.select("path")
               .transition()
