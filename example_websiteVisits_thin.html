@@ -191,8 +191,11 @@
   chart1.setData(chart1_data);
   chart1.display();
 
-  chart1.delete();
-  chart1.display();
+  chart1.tooltip.setActive(true);
+  d3.select(chart1.tooltip.getHashId()).select('rect').style("fill", "white");
+  chart1.tooltip.setNameText("Name");
+  chart1.tooltip.setValueText("Value");
+  chart1.restart();
 
 
   var chart2_data_old = [
