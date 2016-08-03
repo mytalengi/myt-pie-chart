@@ -294,7 +294,7 @@
               return this;
             },
 
-            opacity: 0,
+            opacity: 1,
             setOpacity: function(o){
               this.opacity = o;
 
@@ -311,7 +311,7 @@
             },
 
             position: {
-              dx: "-.5em",
+              dx: "-1.5em",
               dy: "0em"
             },
 
@@ -1004,12 +1004,13 @@
               .attr("fill", function(d){ return d.data.color ? d.data.color : 'black'; })
               .attr("dx", this.chart.label.position.dx)
               .attr("dy", this.chart.label.position.dy)
-              .style("opacity", 0)
+              .style("opacity", 1)
               .style("font-family", this.chart.font.getFamily())
               .style("font-size", this.chart.font.getSize() + this.chart.font.getSizeType())
               .style("font-variant", this.chart.font.getVariant())
               .style("font-style", this.chart.font.getStyle())
-              .style("font-weight", this.chart.font.getWeight());
+              .style("font-weight", this.chart.font.getWeight())
+              .text(this.chart.label.textFunc);
 
             if(this.chart.label.active){
               g.select('text')
@@ -1122,7 +1123,7 @@
       }
     },
     randomId: function(){
-      var id = '';
+      var id = 'A';
       var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       for( var i = 0; i < 5; i++ )
         id += possible.charAt(Math.floor(Math.random() * possible.length));
