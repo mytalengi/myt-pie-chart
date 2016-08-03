@@ -873,15 +873,6 @@
         arcs: null,
 
         display: function(){
-          if((this.width == 0 && this.height == 0) || (this.width == 450 && this.height == 300)){
-            this.setWidth(450);
-            this.setHeight(300);
-          }else if(this.width == 0 || this.width == 450){
-            this.setWidth(450);
-          }else if(this.height == 0 || this.height == 300){
-            this.setHeight(300);
-          }
-
           this.radius = Math.min(this.width, this.height) / 2;
 
           this.pie = d3.layout.pie()
@@ -890,7 +881,9 @@
 
           this.arc = d3.svg.arc()
             .innerRadius(this.radius - this.chart.dimension.centerRadius)
-            .outerRadius(this.radius - 20);
+            .outerRadius(this.chart.dimension.radius);
+
+          console.log(this.chart.dimension.centerRadius);
 
           var offset = 0;
           if(this.chart.font.getSizeType() === "px"){
@@ -1120,7 +1113,7 @@
           this.delete();
           this.display();
         }
-      }
+      }.setWidth(450).setHeight(300)
     },
     randomId: function(){
       var id = 'A';

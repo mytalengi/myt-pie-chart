@@ -31,11 +31,25 @@
         .setData(data) // Bind the data
         .setContainer('example') // Assign a container
 
-      pie.chart.dimension.setRadius(100); // Change the radius of the chart
+      pie.chart.dimension.setRadius(140);
+
+      // pie.chart.font.setSize(30); // Set font size to 20 pixels
+
+      pie.chart.font.setSize(80); // Set font size to 80%
+      pie.chart.font.setSizeType("%"); // Defines font size type, defaults to 'px'
+
+      // pie.chart.font.setSize(2); // Set font size to 2em
+      // pie.chart.font.setSizeType("em"); // Defines font size type, defaults to 'px'
+
+      pie.chart.font.setStyle("italic"); // Set font style
+      pie.chart.font.setVariant("small-caps"); // Set font variant
+      pie.chart.font.setWeight("bold"); // Set font weight
+
+      pie.chart.font.setFamily("'Arial', Helvetica, sans-serif"); // Set font family
 
       pie.display(); // Display the chart
 
-      // Image -> https://postimg.org/image/4trukelht/
+      // Image -> https://postimg.org/image/jyyzewrx3/
 
     </script>
   </body>
