@@ -50,3 +50,8 @@ pie.chart.label.getLabel() // Returns the properties of the chart.label object
 //   }
 // }
 ```
+
+## Examples
+
+- example_label.html
+![example_label](https://s31.postimg.org/3xed7y4rf/example_label.png)

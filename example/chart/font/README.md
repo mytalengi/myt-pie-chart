@@ -68,3 +68,8 @@ pie.chart.font.getFont() // Returns the properties of the chart.font object
 //   style: ..
 // };
 ```
+
+## Examples
+
+- example_font.html
+![example_font](https://s31.postimg.org/nvcbawcwr/example_font.png)

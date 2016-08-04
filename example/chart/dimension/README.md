@@ -30,3 +30,9 @@ pie.chart.dimension.getDimension() // Returns the properties of the chart.dimens
 //   radius: ..
 // };
 ```
+
+# Examples
+- example-radius.html
+![example-radius](https://s32.postimg.org/3rho1v2ol/example_radius.png)
+- example-centerRadius.html
+![example-centerRadius](https://s31.postimg.org/tcdcnspej/example_center_Radius.png)

@@ -48,3 +48,8 @@ pie.chart.position.getPosition() // Returns the properties of the chart.position
 //   dy: ..
 // };
 ```
+
+## Examples
+
+- example_position.html
+![example_position](https://s31.postimg.org/vsh078ayz/example_position.png)

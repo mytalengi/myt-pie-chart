@@ -40,3 +40,8 @@ pie.chart.events.getEvents() // Returns the properties of the chart.events objec
 //   onMouseLeave: ..
 // }
 ```
+
+# Examples
+
+- example_events.html
+![example_events](https://s31.postimg.org/ejg5jty1n/example_events.png)

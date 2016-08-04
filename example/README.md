@@ -107,3 +107,8 @@ pie.restart();
 # Events properties
 
 [Events properties documentation](events/)
+
+## Examples
+
+- example_basic.html
+![example_basic](https://s31.postimg.org/egroj8pkr/example_basic.png)
