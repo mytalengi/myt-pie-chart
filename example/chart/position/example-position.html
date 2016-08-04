@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src="path/to/d3.js"></script>
+    <script src="path/to/myt-pie-chart.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+
+    <script>
+
+      var data = [{
+        name: 'Facebook',
+        value: 20,
+        bgColor: 'lightblue',
+        color: 'white'
+      },{
+        name: 'Twitter',
+        value: 12,
+        bgColor: 'lightgray',
+        color: 'blue'
+      },{
+        name: 'Github',
+        value: 15,
+        bgColor: 'lightgreen',
+        color: 'white'
+      }];
+
+
+      // Create a basic chart
+      var pie = mytPieChart.newChart() // Generate new chart instance
+        .setData(data) // Bind the data
+        .setContainer('example') // Assign a container
+
+      pie.chart.position.setX(100); // Set position x of the chart to 100
+      pie.chart.position.setY(100); // Set position y of the chart to 100
+
+      pie.display(); // Display the chart
+
+      // Image -> https://postimg.org/image/4un35hqbr/
+
+    </script>
+  </body>
+</html>

@@ -40,7 +40,7 @@
           this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
 
           this.chart.position.setX(this.width / 2);
-          this.chart.position.setY(this.height / 1.9);
+          this.chart.position.setY(this.chart.dimension.radius);
 
           this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
           this.tooltip.position.setY(this.height / 10);
@@ -61,8 +61,7 @@
           this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
           this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
 
-          this.chart.position.setX(this.width / 2);
-          this.chart.position.setY(this.height / 1.9);
+          this.chart.position.setY(this.chart.dimension.radius);
 
           this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
           this.tooltip.position.setY(this.height / 10);
@@ -207,7 +206,6 @@
             x: 150,
             setX: function(x){
               this.x = x;
-
               return this;
             },
             getX: function(){
@@ -882,8 +880,6 @@
           this.arc = d3.svg.arc()
             .innerRadius(this.radius - this.chart.dimension.centerRadius)
             .outerRadius(this.chart.dimension.radius);
-
-          console.log(this.chart.dimension.centerRadius);
 
           var offset = 0;
           if(this.chart.font.getSizeType() === "px"){

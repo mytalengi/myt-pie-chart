@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <script src="path/to/d3.js"></script>
+    <script src="path/to/myt-pie-chart.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+
+    <script>
+
+      var data = [{
+        name: 'Facebook',
+        value: 20,
+        bgColor: 'lightblue',
+        color: 'white'
+      },{
+        name: 'Twitter',
+        value: 12,
+        bgColor: 'lightgray',
+        color: 'blue'
+      },{
+        name: 'Github',
+        value: 15,
+        bgColor: 'lightgreen',
+        color: 'white'
+      }];
+
+
+      // Create a basic chart
+      var pie = mytPieChart.newChart() // Generate new chart instance
+        .setData(data) // Bind the data
+        .setContainer('example') // Assign a container
+
+      // pie.chart.label.setActive(false); // Disable labels completly
+      // pie.chart.label.setOpacity(0); // Set label opacity to 0, hide them
+
+      // pie.chart.label.setTextFunc("someText"); // Change all labels to sometext
+      pie.chart.label.setTextFunc(function(d){ // Change label text to only show starting letter
+        if(d.data.name == 'Facebook')
+          return 'F';
+        else if(d.data.name == 'Twitter')
+          return 'T';
+        else if(d.data.name == 'Github')
+          return 'G';
+        else
+          return 'Undefined';
+      });
+
+      pie.display(); // Display the chart
+
+      // Image -> https://postimg.org/image/hr2pwzxcn/
+
+    </script>
+  </body>
+</html>
