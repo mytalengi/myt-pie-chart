@@ -6,9 +6,9 @@
     });
   } else if(typeof module === "object" && module.exports) {
     // If require is used
-    module.exports = (root.mytPieChart = factory(require("myt-pie-chart_")));
+    module.exports = factory(require("myt-pie-chart_"));
   } else {
-    root.mytPieChart = factory(root.mytPieChart);
+    root.mytPieChart = factory("myt-pie-chart");
   }
 }(this, function(mytPieChart){
 
