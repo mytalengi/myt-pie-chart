@@ -1,16 +1,16 @@
 (function (root, factory) {
   if(typeof define === "function" && define.amd) {
     // If AMD is used
-    define(["myt-pie-chart_"], function(mytPieChart){
-      return (root.mytPieChart = factory(mytPieChart));
+    define(["myt-pie-chart"], function(mytPieChart){
+      return factory(mytPieChart);
     });
   } else if(typeof module === "object" && module.exports) {
     // If require is used
-    module.exports = factory(require("myt-pie-chart_"));
+    module.exports = factory(require("myt-pie-chart"));
   } else {
     root.mytPieChart = factory("myt-pie-chart");
   }
-}(this, function(mytPieChart){
+}(this, function(){
 
   mytPieChart = {
 
