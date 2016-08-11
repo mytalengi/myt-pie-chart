@@ -31,8 +31,11 @@
         .setData(data) // Bind the data
         .setContainer('example') // Assign a container
 
-      pie.chart.position.setX(100); // Set position x of the chart to 100
-      pie.chart.position.setY(100); // Set position y of the chart to 100
+      pie.title.setActive(true);
+      pie.title.setTextFunc("Chart Title");
+
+      pie.title.position.setX(100); // Set position x of the title to 100
+      pie.title.position.setY(100); // Set position y of the title to 100
 
       pie.display(); // Display the chart
 

@@ -1,45 +1,45 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# Chart.Position Properties
+# Title.Position Properties
 
 ## x
 
-  _`pie.chart.position.setX(int)` - Optional, defaults to 150._
+  _`pie.title.position.setX(int)` - Optional, defaults to 150._
 
 ```JavaScript
-pie.chart.position.setX(int); // Sets the x-position of the chart.
-pie.chart.position.getX();       // Returns the x-position of the chart.
+pie.title.position.setX(int); // Sets the x-position of the title.
+pie.title.position.getX();       // Returns the x-position of the title.
 ```
 # y
 
-  _`pie.chart.position.setY(int)` - Optional, defaults to 150._
+  _`pie.title.position.setY(int)` - Optional, defaults to 150._
 
 ```JavaScript
-pie.chart.position.setY(int); // Sets the y-position of the chart.
-pie.chart.position.getY();       // Returns the y-position of the chart.
+pie.title.position.setY(int); // Sets the y-position of the title.
+pie.title.position.getY();       // Returns the y-position of the title.
 ```
 # dx
 
-  _`pie.chart.position.setDX(int)` - Optional, defaults to null._
+  _`pie.title.position.setDX(int)` - Optional, defaults to null._
 
 ```JavaScript
-pie.chart.position.setDX(int); // Sets the x-offset of the chart.
-pie.chart.position.getDX();       // Returns the x-offset of the chart.
+pie.title.position.setDX(int); // Sets the x-offset of the title.
+pie.title.position.getDX();       // Returns the x-offset of the title.
 ```
 # dy
 
-  _`pie.chart.position.setDY(int)` - Optional, defaults to null._
+  _`pie.title.position.setDY(int)` - Optional, defaults to null._
 
 ```JavaScript
-pie.chart.position.setDY(int); // Sets the y-offset of the chart.
-pie.chart.position.getDY();       // Returns the y-offset of the chart.
+pie.title.position.setDY(int); // Sets the y-offset of the title.
+pie.title.position.getDY();       // Returns the y-offset of the title.
 ```
 
 ## get Position
 
 ```JavaScript
-pie.chart.position.getPosition() // Returns the properties of the chart.position object
+pie.title.position.getPosition() // Returns the properties of the title.position object
 
 // #=> {
 //   x: ..,
@@ -52,4 +52,4 @@ pie.chart.position.getPosition() // Returns the properties of the chart.position
 ## Examples
 
 - example_position.html
-![example_position](https://s31.postimg.org/vsh078ayz/example_position.png)
+![example_position](https://s10.postimg.org/ccnk3vep5/example_position.png)
