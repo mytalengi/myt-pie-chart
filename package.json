@@ -1,6 +1,6 @@
 {
   "name": "myt-pie-chart",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "\"Library that simplifys the use of d3 to display pie charts.\"",
   "author": "Ante Adamović <ante@keepersolutions.com>",
   "main": "myt-pie-chart.js",
