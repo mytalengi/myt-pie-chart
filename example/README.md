@@ -61,98 +61,54 @@ pie.getId();       // Returns the SVG id.
 
 ## Display graph
 
-_`display()` - Required, renders graph. If the graph exists already it deletes the existing graph and renders a new one._
+_`display()` - Required, renders graph. If the graph exists already it executes `update()` else it generates a new graph._
 
 ```JavaScript
 pie.display();
 ```
 
+## Update graph
+
+_`update()` - Optional, updates graph. Updates the graph and some of it's properties._
+
+```JavaScript
+pie.update();
+```
+
+## Delete graph
+
+_`delete()` - Optional, deletes graph. Removes the svg element from the container, useful if
+you need to update some core properties._
+
+```JavaScript
+pie.delete();
+```
+
+## Restart graph
+
+_`restart()` - Optional, deletes and renders a new graph. First executes `delete()` and after it `display()`._
+
+```JavaScript
+pie.restart();
+```
+
 # Chart properties
 
-## Chart ID
-
-_`pie.chart.setId(str)` - Optional, defaults to `<SVGId>_chart`._
-
-```JavaScript
-pie.chart.setId(str); // Sets the id of the `<g>` element.
-pie.chart.getId();       // Returns the id of the `<g>` element.
-pie.chart.getHashId();   // Returns the id of the `<g>` element with '#' prefix.
-```
-
-## Chart font
-
-_Optional._
-
-Please see [extended font documentation](chart/font/).
-
-## Chart position
-
-_Optional._
-
-Please see [extended position documentation](chart/position/).
-
-## Chart dimension
-
-_Optional._
-
-Please see [extended dimension documentation](chart/dimension/).
-
-## Get chart
-
-_`chart.getChart()` - Optional, returns the properties of the chart object._
-
-```JavaScript
-pie.chart.getChart();
-
-// #=> {
-//   id: ..,
-//   font: ..,
-//   position: ..,
-//   dimension: ..
-// };
-```
+[Chart properties documentation](chart/)
 
 # Tooltip properties
 
-## Tooltip ID
+[Tooltip properties documentation](tooltip/)
 
-_`pie.tooltip.setId(str)` - Optional, defaults to `<SVGId>_tooltip`._
+# Title properties
 
-```JavaScript
-pie.tooltip.setId(string); // Sets the id of the <g> element.
-pie.tooltip.getId();       // Returns the id of the <g> element.
-pie.tooltip.getHashId();   // Returns the id of the <g> element with '#' prefix.
-```
+[Title properties documentation](title/)
 
-## Tooltip font
+# Events properties
 
-_Optional._
+[Events properties documentation](events/)
 
-Please see [extended font documentation](tooltip/font/).
+## Examples
 
-## Tooltip position
-
-_Optional._
-
-Please see [extended position documentation](tooltip/position/).
-
-## Tooltip dimension
-
-_Optional._
-
-Please see [extended dimension documentation](tooltip/dimension/).
-
-## Tooltip get
-
-_`tooltip.getTooltip()` - Optional, returns the properties of the tooltip object._
-
-```JavaScript
-pie.tooltip.getTooltip();
-
-// #=> {
-//   id: ..,
-//   font: ..,
-//   position: ..,
-//   dimension: ..
-// }
-```
+- example_basic.html
+![example_basic](https://s31.postimg.org/egroj8pkr/example_basic.png)

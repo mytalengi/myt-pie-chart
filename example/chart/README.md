@@ -31,6 +31,18 @@ _Optional._
 
 Please see [extended dimension documentation](dimension/).
 
+## Chart labels
+
+_Optional._
+
+Please see [extended dimension documentation](label/).
+
+## Chart events
+
+_Optional._
+
+Please see [extended dimension documentation](events/).
+
 ## Get chart
 
 _`chart.getChart()` - Optional, returns the properties of the chart object._

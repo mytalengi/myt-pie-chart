@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <script src="path/to/d3.js"></script>
+    <script src="path/to/myt-pie-chart.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+
+    <script>
+
+      var data = [{
+        name: 'Facebook',
+        value: 20,
+        bgColor: 'lightblue',
+        color: 'white'
+      },{
+        name: 'Twitter',
+        value: 12,
+        bgColor: 'lightgray',
+        color: 'blue'
+      },{
+        name: 'Github',
+        value: 15,
+        bgColor: 'lightgreen',
+        color: 'white'
+      }];
+
+
+      // Create a basic chart
+      var pie = mytPieChart.newChart() // Generate new chart instance
+        .setData(data) // Bind the data
+        .setContainer('example') // Assign a container
+
+      pie.chart.dimension.setRadius(120);
+
+      pie.title.setActive(true);
+      pie.title.setTextFunc("Chart Title");
+
+      // pie.title.font.setSize(30); // Set font size to 20 pixels
+
+      pie.title.font.setSize(80); // Set font size to 80%
+      pie.title.font.setSizeType("%"); // Defines font size type, defaults to 'px'
+
+      // pie.title.font.setSize(2); // Set font size to 2em
+      // pie.title.font.setSizeType("em"); // Defines font size type, defaults to 'px'
+
+      pie.title.font.setStyle("italic"); // Set font style
+      pie.title.font.setVariant("small-caps"); // Set font variant
+      pie.title.font.setWeight("bold"); // Set font weight
+
+      pie.title.font.setFamily("'Arial', Helvetica, sans-serif"); // Set font family
+
+      pie.display(); // Display the chart
+
+    </script>
+  </body>
+</html>

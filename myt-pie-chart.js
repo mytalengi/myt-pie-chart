@@ -6,9 +6,9 @@
     });
   } else if(typeof module === "object" && module.exports) {
     // If require is used
-    module.exports = (root.mytPieChart = factory(require("myt-pie-chart_")));
+    module.exports = factory(require("myt-pie-chart_"));
   } else {
-    root.mytPieChart = factory(root.mytPieChart);
+    root.mytPieChart = factory("myt-pie-chart");
   }
 }(this, function(mytPieChart){
 
@@ -40,7 +40,7 @@
           this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
 
           this.chart.position.setX(this.width / 2);
-          this.chart.position.setY(this.height / 1.9);
+          this.chart.position.setY(this.chart.dimension.radius);
 
           this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
           this.tooltip.position.setY(this.height / 10);
@@ -61,8 +61,7 @@
           this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
           this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
 
-          this.chart.position.setX(this.width / 2);
-          this.chart.position.setY(this.height / 1.9);
+          this.chart.position.setY(this.chart.dimension.radius);
 
           this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
           this.tooltip.position.setY(this.height / 10);
@@ -207,7 +206,6 @@
             x: 150,
             setX: function(x){
               this.x = x;
-
               return this;
             },
             getX: function(){
@@ -294,7 +292,7 @@
               return this;
             },
 
-            opacity: 0,
+            opacity: 1,
             setOpacity: function(o){
               this.opacity = o;
 
@@ -311,7 +309,7 @@
             },
 
             position: {
-              dx: "-.5em",
+              dx: "-1.5em",
               dy: "0em"
             },
 
@@ -873,15 +871,6 @@
         arcs: null,
 
         display: function(){
-          if((this.width == 0 && this.height == 0) || (this.width == 450 && this.height == 300)){
-            this.setWidth(450);
-            this.setHeight(300);
-          }else if(this.width == 0 || this.width == 450){
-            this.setWidth(450);
-          }else if(this.height == 0 || this.height == 300){
-            this.setHeight(300);
-          }
-
           this.radius = Math.min(this.width, this.height) / 2;
 
           this.pie = d3.layout.pie()
@@ -890,7 +879,7 @@
 
           this.arc = d3.svg.arc()
             .innerRadius(this.radius - this.chart.dimension.centerRadius)
-            .outerRadius(this.radius - 20);
+            .outerRadius(this.chart.dimension.radius);
 
           var offset = 0;
           if(this.chart.font.getSizeType() === "px"){
@@ -1004,12 +993,13 @@
               .attr("fill", function(d){ return d.data.color ? d.data.color : 'black'; })
               .attr("dx", this.chart.label.position.dx)
               .attr("dy", this.chart.label.position.dy)
-              .style("opacity", 0)
+              .style("opacity", 1)
               .style("font-family", this.chart.font.getFamily())
               .style("font-size", this.chart.font.getSize() + this.chart.font.getSizeType())
               .style("font-variant", this.chart.font.getVariant())
               .style("font-style", this.chart.font.getStyle())
-              .style("font-weight", this.chart.font.getWeight());
+              .style("font-weight", this.chart.font.getWeight())
+              .text(this.chart.label.textFunc);
 
             if(this.chart.label.active){
               g.select('text')
@@ -1119,10 +1109,10 @@
           this.delete();
           this.display();
         }
-      }
+      }.setWidth(450).setHeight(300)
     },
     randomId: function(){
-      var id = '';
+      var id = 'A';
       var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       for( var i = 0; i < 5; i++ )
         id += possible.charAt(Math.floor(Math.random() * possible.length));

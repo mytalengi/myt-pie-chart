@@ -1,35 +1,57 @@
 # myt-pie-chart
 Simple pie chart library with D3
 
-# How to use:
+# Chart.Label Properties
 
-- install via the npm <code> npm install myt-pie-chart </code>
-- create a new instance of the pie chart as example below
-- <code> var pie = myt-pie-chart.newChart(); </code>
-- set pie data with <code> pie.setData(data) </code>
-- data format: [{
-  name: string,
-  value: int,
-  bgColor: string,
-  color: string
-}]
- 
-  name & value are required, bgColor has calculated default value and color has 'black' default value
+## active
 
-- set width with <code> pie.setWidth(int) </code>
-- set height with <code> pie.setHeight(int) </code>
-- set containerId with <code> pie.setContainerId(string) </code>
-  
-  ContainerID must be passed else the chart won't display properly.
+  _`pie.chart.label.setActive(boolean)` - Optional, defaults to true._
+  _Defines if chart labels are active or not._
+```JavaScript
+pie.chart.label.setActive(bool); // Sets the activity of the chart labels.
+```
 
-  (ID of an existing element that the chart will be displayed in)
+## opacity
 
-- set chart id with <code> pie.setId(string) </code>
+  _`pie.chart.label.setOpacity(int/decimal)` - Optional, defaults to 1._
+  _Defines if chart labels are visible or not._
+```JavaScript
+pie.chart.label.setOpacity(int/decimal); // Sets the opacity of the chart labels.
+```
 
-  Id required for proper display of tooltips.
-  
-  (A string that will be used to identify svg and tooltip elements)
+## textFunc
 
-- display the chart with <code> pie.draw() </code>
-- if you want to redraw the chart simply call <code> pie.draw() </code> again
-- examples are inside <code>index.html</code>
+  _`pie.chart.label.setTextFunc(function)` - Optional, defaults to:._
+```JavaScript
+  function(d){
+    return d.data.name; // d contains data of the appropriate slice
+  }
+```
+
+```JavaScript
+pie.chart.label.setTextFunc(function(d){}/String); // Sets the text of the chart labels.
+```
+
+## position
+
+```JavaScript
+pie.chart.position.dx // X offset of the chart labels.
+pie.chart.position.dy // Y offset of the chart labels
+```
+
+## getLabel
+```JavaScript
+pie.chart.label.getLabel() // Returns the properties of the chart.label object
+// #=> {
+//   active: ..,
+//   positions: {
+//     dx: ..,
+//     dy: ..
+//   }
+// }
+```
+
+## Examples
+
+- example_label.html
+![example_label](https://s31.postimg.org/3xed7y4rf/example_label.png)
