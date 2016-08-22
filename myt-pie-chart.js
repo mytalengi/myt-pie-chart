@@ -987,7 +987,6 @@
               .style("opacity", 1);
 
             var labelArc = this.labelArc;
-            // Need to reorganize code so the label text can be displayed again if user wants it to.
             g.append("text")
               .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
               .attr("fill", function(d){ return d.data.color ? d.data.color : 'black'; })
