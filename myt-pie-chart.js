@@ -16,7 +16,7 @@
 
     newChart: function() {
 
-      id = this.randomId();
+      var id = this.randomId();
 
       return {
 
