@@ -300,7 +300,7 @@
             },
 
             textFunc: function(d){
-              return d.data.name;
+              return d.data.label ? d.data.label : d.data.name;
             },
             setTextFunc: function(tf){
               this.textFunc = tf;
