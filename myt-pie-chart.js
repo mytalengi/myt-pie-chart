@@ -14,11 +14,11 @@
 
   mytPieChart = {
 
-    newChart: function() {
+    newChart: function(container) {
 
       var id = this.randomId();
 
-      return {
+      var chart = {
 
         data: [],
         // Data to be displayed in the chart_
@@ -1101,7 +1101,7 @@
 
         delete: function(){
           this.svg = null;
-          d3.select('#' + this.id).select("svg").remove();
+          d3.select('#' + this.container).select("svg").remove();
         },
 
         restart: function(){
@@ -1109,6 +1109,17 @@
           this.display();
         }
       }.setWidth(450).setHeight(300)
+
+      chart.setContainer(container);
+
+      if(document.getElementById(container))
+        window.addEventListener('resize', function(){
+          chart.setWidth(document.getElementById(container).clientWidth);
+          chart.restart();
+          console.log(chart.getWidth());
+        });
+
+      return chart;
     },
     randomId: function(){
       var id = 'A';
