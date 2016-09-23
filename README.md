@@ -43,20 +43,17 @@ var data = [{
 Create a pie chart instance, then assign your data to it.
 
 ```JavaScript
-var pie = mytPieChart.newChart().setData(data);
+var pie = mytPieChart.newChart('container-id').setData(data);
 ```
 
 Configure your chart.
 
 ```JavaScript
-pie.setWidth(400)             // Required. {int}    - default unit is 'px'.
-   .setHeight(350)            // Required. {int}    - default unit is 'px'.
-   .setContainerId('my-id');  // Optional. {string} - ID if an existing DOM element used as container, defaults to 'body'.
+// Chart inherits the size of the container element.
 
 // Additional options, see full options support in documentation.
-pie.setId('my-chart-id')      // Optional. {string} - ID to be used by chart elements, defaults to a generated ID.
-pie.chart.font.setSize(18)    // Optional. {int}    - Size of font used in chart.
-pie.tooltip.font.setSize(12); // Optional. {int}    - Size of font used in tooltip.
+pie.tooltip = true;    // Optional. {boolean}    - To show the tooltip, defaults to false.
+pie.tooltipId = 'tooltipContainerId'; // Optional. {string}    - Assign the element to be used as tooltip.
 ```
 
 Render the chart.
@@ -64,7 +61,7 @@ Render the chart.
 ```JavaScript
 pie.display();
 ```
-In case you want to redraw the chart, you may call `pie.display();` again.
+In case you want to redraw the chart, you may call `pie.restart();`.
 
 ```JavaScript
 pie.display();
@@ -74,7 +71,7 @@ data = someNewData();
 pie.setData(data);
 
 // Re-render the chart with new data.
-pie.display();
+pie.update(); // Update only works for data changes, if you want to redraw the chart use 'pie.restart()'
 ```
 
 ---

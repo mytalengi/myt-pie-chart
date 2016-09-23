@@ -20,37 +20,21 @@
 
       var chart = {
 
-        data: [],
+        _data: [],
         // Data to be displayed in the chart_
         setData: function(d){
-          this.data = d;
+          this._data = d;
 
           return this;
         },
-        getData: function(){
-          return this.data;
-        },
 
-        width: 450,
+        _width: 450,
         // Width of the SVG element
         setWidth: function(w){
           if(w)
-            this.width = w;
-          this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
-          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
-
-          this.chart.position.setX(this.width / 2);
-          this.chart.position.setY(this.chart.dimension.radius);
-
-          // this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
-          // this.tooltip.position.setY(this.height / 10);
-
-          this.title.position.setX(this.width / 2.2);
+            this._width = w;
 
           return this;
-        },
-        getWidth: function(){
-          return this.width;
         },
 
         height: 300,
@@ -58,20 +42,8 @@
         setHeight: function(h){
           if(h)
             this.height = h;
-          this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
-          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
-
-          this.chart.position.setY(this.chart.dimension.radius);
-
-          this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
-          this.tooltip.position.setY(this.height / 10);
-
-          this.title.position.setY(this.height / 12);
 
           return this;
-        },
-        getHeight: function(){
-          return this.height;
         },
 
         container: 'body',
@@ -80,12 +52,16 @@
         // it won't work as expected
         // Defaults to 'body'
         setContainer: function(c){
-          this.container = c;
-
+          if(c){
+            this.container = c;
+            this.setHeight(document.getElementById(container).offsetHeight);
+            this.setWidth(document.getElementById(container).offsetWidth);
+          }
+          else {
+            this.setHeight(document.getElementsByTagName('body')[0].offsetHeight);
+            this.setWidth(document.getElementsByTagName('body')[0].offsetWidth);
+          }
           return this;
-        },
-        getContainer: function(){
-          return this.container;
         },
 
         id: id,
@@ -99,9 +75,6 @@
           this.title.setId(i);
 
           return this;
-        },
-        getId: function(){
-          return this.id;
         },
 
         chart: {
@@ -560,12 +533,12 @@
         //     width: 150,
         //     // Width of tooltip rectangle
         //     setWidth: function(w){
-        //       this.width = w;
+        //       this._width = w;
         //
         //       return this;
         //     },
         //     getWidth: function(){
-        //       return this.width;
+        //       return this._width;
         //     },
         //
         //     height: 35,
@@ -582,7 +555,7 @@
         //     // Returns all dimension properties
         //     getDimension: function(){
         //       return {
-        //         width: this.width,
+        //         width: this._width,
         //         height: this.height
         //       }
         //     }
@@ -599,6 +572,7 @@
         //
         // },
         tooltip: true,
+        tooltipId: '',
 
         title: {
 
@@ -775,7 +749,6 @@
 
         },
 
-        // Events on entire chart
         events: {
           onClick: function(d){},
 
@@ -812,19 +785,19 @@
         arcs: null,
 
         display: function(){
-          this.radius = (Math.min(this.width, this.height)-20) / 2;
+          this.radius = (Math.min(this._width, this.height)-20) / 2;
 
           this.pie = d3.layout.pie()
             .value(function(d) { return d.value; })
             .sort(null);
 
           this.arc = d3.svg.arc()
-            .innerRadius(this.radius - this.chart.dimension.centerRadius)
-            .outerRadius(this.chart.dimension.radius);
+            .innerRadius(0)
+            .outerRadius(this.radius);
 
           var offset = 0;
           if(this.chart.font.getSizeType() === "px"){
-            offset = (this.chart.font.getSize() - 20) / 2 * 15;
+            offset = (this.chart.font.getSize() - 20) / 2 * 20;
           }
           this.labelArc = d3.svg.arc()
             .outerRadius(this.radius - 40 - offset)
@@ -835,11 +808,9 @@
           }
 
           // Create svg container
-          this.svg = d3.select('#' + this.getContainer()).append("svg")
+          this.svg = d3.select('#' + this.container).append("svg")
               .attr("width", this.radius * 2 + 10)
               .attr("height", this.radius * 2 + 10);
-
-          // this.svg.append("text").attr("transform", "translate(100, 30)").text("test");
 
           // Create chart container
           this.g_chart = this.svg.append("g")
@@ -890,6 +861,7 @@
 
         update: function(){
             var tooltip = this.tooltip;
+            var tooltip_id = this.tooltipId;
 
             this.events.onMouseOver = function(d){
               var angle = d.endAngle - ( (d.endAngle - d.startAngle) / 2 );
@@ -900,7 +872,7 @@
               if(tooltip){
                 var d_ = d;
                 this.onmousemove = function(e){
-                  var tooltip = document.getElementById('example-tooltip');
+                  var tooltip = document.getElementById(tooltip_id);
                   tooltip.style.display = 'block';
                   tooltip.style.top = e.clientY + 15;
                   tooltip.style.left = e.clientX + 15;
@@ -910,31 +882,30 @@
             }
 
             this.events.onMouseLeave = function(d){
-              this.setAttribute('transform', 'translate(0, 0)');
+              this.setAttribute('transform', '');
 
               if(tooltip){
-                document.getElementById('example-tooltip').style.display = 'none';
+                document.getElementById(tooltip_id).style.display = 'none';
               }
             }
 
             color = this.color;
 
-            this.svg.select(this.title.getHashId())
-              .style("font-family", this.title.font.getFamily())
-              .style("font-size", this.title.font.getSize() + this.title.font.getSizeType())
-              .style("font-variant", this.title.font.getVariant())
-              .style("font-style", this.title.font.getStyle())
-              .style("font-weight", this.title.font.getWeight())
-              .text(this.title.textFunc);
+            // this.svg.select(this.title.getHashId())
+            //   .style("font-family", this.title.font.getFamily())
+            //   .style("font-size", this.title.font.getSize() + this.title.font.getSizeType())
+            //   .style("font-variant", this.title.font.getVariant())
+            //   .style("font-style", this.title.font.getStyle())
+            //   .style("font-weight", this.title.font.getWeight())
+            //   .text(this.title.textFunc);
 
             // Removed unused tags
             this.svg.selectAll('.arc').each(function(){
                 if(!d3.select(this).select('path')[0][0])
                   d3.select(this).remove();
               });
-
             var data0 = this.arcs.length != 0 ? this.arcs.data() : this.pie([]),
-                data1 = this.pie(this.data);
+                data1 = this.pie(this._data);
 
             this.arcs = this.arcs.data(data1, key);
 
@@ -1076,11 +1047,13 @@
         }
       }
 
-      chart.setContainer(container);
+      if(container) chart.setContainer(container);
+      else chart.setContainer();
 
       if(document.getElementById(container))
         window.addEventListener('resize', function(){
-          chart.setWidth(document.getElementById(container).clientWidth);
+          chart.setHeight(document.getElementById(container).offsetHeight);
+          chart.setWidth(document.getElementById(container).offsetWidth);
           chart.restart();
         });
       else {
