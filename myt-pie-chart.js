@@ -14,43 +14,27 @@
 
   mytPieChart = {
 
-    newChart: function() {
+    newChart: function(container) {
 
       var id = this.randomId();
 
-      return {
+      var chart = {
 
-        data: [],
+        _data: [],
         // Data to be displayed in the chart_
         setData: function(d){
-          this.data = d;
+          this._data = d;
 
           return this;
         },
-        getData: function(){
-          return this.data;
-        },
 
-        width: 450,
+        _width: 450,
         // Width of the SVG element
         setWidth: function(w){
           if(w)
-            this.width = w;
-          this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
-          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
-
-          this.chart.position.setX(this.width / 2);
-          this.chart.position.setY(this.chart.dimension.radius);
-
-          this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
-          this.tooltip.position.setY(this.height / 10);
-
-          this.title.position.setX(this.width / 2.2);
+            this._width = w;
 
           return this;
-        },
-        getWidth: function(){
-          return this.width;
         },
 
         height: 300,
@@ -58,20 +42,8 @@
         setHeight: function(h){
           if(h)
             this.height = h;
-          this.chart.dimension.setRadius(Math.min(this.width, this.height) / 2);
-          this.chart.dimension.setCenterRadius(this.chart.dimension.getRadius());
-
-          this.chart.position.setY(this.chart.dimension.radius);
-
-          this.tooltip.position.setX(this.chart.dimension.getRadius() / 1.5 + this.width / 2);
-          this.tooltip.position.setY(this.height / 10);
-
-          this.title.position.setY(this.height / 12);
 
           return this;
-        },
-        getHeight: function(){
-          return this.height;
         },
 
         container: 'body',
@@ -80,12 +52,16 @@
         // it won't work as expected
         // Defaults to 'body'
         setContainer: function(c){
-          this.container = c;
-
+          if(c){
+            this.container = c;
+            this.setHeight(document.getElementById(container).offsetHeight);
+            this.setWidth(document.getElementById(container).offsetWidth);
+          }
+          else {
+            this.setHeight(document.getElementsByTagName('body')[0].offsetHeight);
+            this.setWidth(document.getElementsByTagName('body')[0].offsetWidth);
+          }
           return this;
-        },
-        getContainer: function(){
-          return this.container;
         },
 
         id: id,
@@ -99,9 +75,6 @@
           this.title.setId(i);
 
           return this;
-        },
-        getId: function(){
-          return this.id;
         },
 
         chart: {
@@ -324,46 +297,6 @@
             }
           },
 
-          // Events on each slice
-          events: {
-            onClick: function(d){},
-            setOnClick: function(f){
-              this.onClick = f;
-
-              return this;
-            },
-
-            onMouseOver: function(d){},
-            setOnMouseOver: function(f){
-              this.onMouseOver = f;
-
-              return this;
-            },
-
-            onMouseEnter: function(d){},
-            setOnMouseEnter: function(f){
-              this.onMouseEnter = f;
-
-              return this;
-            },
-
-            onMouseLeave: function(d){},
-            setOnMouseLeave: function(f){
-              this.onMouseLeave = f;
-
-              return this;
-            },
-
-            getEvents: function(){
-              return {
-                onClick: this.onClick,
-                onMouseOver: this.onMouseOver,
-                onMouseEnter: this.onMouseEnter,
-                onMouseLeave: this.onMouseLeave
-              }
-            }
-          },
-
           getChart: function(){
             return {
               id: this.id,
@@ -377,267 +310,269 @@
 
         },
 
-        tooltip: {
-
-          id: id + '_tooltip',
-          // Id of the tooltip element
-          setId: function(i){
-            this.id = i + '_tooltip';
-
-            return this;
-          },
-          getId: function(){
-            return this.id;
-          },
-          getHashId: function(){
-            return '#' + this.id;
-          },
-
-          opacity: 1,
-          setOpacity: function(o){
-            this.opacity = o;
-
-            return this;
-          },
-
-          isActive: false,
-          setActive: function(a){
-            this.isActive = a;
-
-            return this;
-          },
-
-          nameText: function(d){},
-          setNameText: function(nt){
-            this.nameText = nt;
-
-            return this;
-          },
-
-          valueText: function(d){},
-          setValueText: function(vt){
-            this.valueText = vt;
-
-            return this;
-          },
-
-          font: {
-
-            family: "'Arial', Helvetica, sans-serif",
-            // Font family used to display tooltip text
-            setFamily: function(f){
-              this.family = f;
-              return this;
-            },
-            getFamily: function(){
-              return this.family;
-            },
-
-            size: 14,
-            // Font size to display tooltip text
-            setSize: function(s){
-              this.size = s;
-
-              return this;
-            },
-            getSize: function(){
-              return this.size;
-            },
-
-            sizeType: "px",
-            // Font size type, either 'px','em' or '%'
-            setSizeType: function(st){
-              this.sizeType = st;
-
-              return this;
-            },
-            getSizeType: function(){
-              return this.sizeType;
-            },
-
-            variant: "normal",
-            // Font variant, either 'normal' or 'small-caps'
-            setVariant: function(v){
-              this.variant = v;
-
-              return this;
-            },
-            getVariant: function(){
-              return this.variant;
-            },
-
-            weight: "normal",
-            // Font weight, either 'normal', 'bold', 'bolder', 'lighter' or number-value
-            setWeight: function(w){
-              this.weight = w;
-
-              return this;
-            },
-            getWeight: function(){
-              return this.weight;
-            },
-
-            style: "normal",
-            // Font style, either 'normal', 'italic' or 'oblique'
-            setStyle: function(s){
-              this.style = s;
-
-              return this;
-            },
-            getStyle: function(){
-              return this.style;
-            },
-
-            // Returns all properties of this font
-            getFont: function(){
-              return {
-                family: this.family,
-                size: this.size,
-                sizeType: this.sizeType,
-                variant: this.variant,
-                weight: this.weight,
-                style: this.style
-              }
-            }
-
-          },
-
-          position: {
-
-            x: 281.25,
-            setX: function(x){
-              this.x = x;
-
-              return this;
-            },
-            getX: function(){
-              return this.x;
-            },
-
-            y: 30,
-            setY: function(y){
-              this.y = y;
-
-              return this;
-            },
-            getY: function(){
-              return this.y;
-            },
-
-            dx: null,
-            setDX: function(dX){
-              this.dx = dX;
-
-              return this;
-            },
-            getDX: function(){
-              return this.dx;
-            },
-
-            dy: null,
-            setDY: function(dY){
-              this.dy = dY;
-
-              return this;
-            },
-            getDY: function(){
-              return this.dy;
-            },
-
-            nameX: 4,
-            setNameX: function(nx){
-              this.nameX = nx;
-
-              return this;
-            },
-            getNameX: function(){
-              return this.nameX;
-            },
-
-            nameY: 14,
-            setNameY: function(ny){
-              this.nameY = ny;
-
-              return this;
-            },
-            getNameY: function(){
-              return this.nameY;
-            },
-
-            valueX: 4,
-            setValueX: function(vx){
-              this.valueX = vx;
-
-              return this;
-            },
-            getValueX: function(){
-              return this.valueX;
-            },
-            valueY: 31,
-            setValueY: function(vy){
-              this.valueY = vy;
-
-              return this;
-            },
-            getValueY: function(){
-              return this.valueY;
-            },
-
-            // Returns all position properties
-            getPosition: function(){
-              return {
-                x: this.x,
-                y: this.y,
-                dx: this.dx,
-                dy: this.dy
-              }
-            }
-
-          },
-
-          dimension: {
-
-            width: 150,
-            // Width of tooltip rectangle
-            setWidth: function(w){
-              this.width = w;
-
-              return this;
-            },
-            getWidth: function(){
-              return this.width;
-            },
-
-            height: 35,
-            // Height of tooltip rectangle
-            setHeight: function(h){
-              this.height = h;
-
-              return this;
-            },
-            getHeight: function(){
-              return this.height;
-            },
-
-            // Returns all dimension properties
-            getDimension: function(){
-              return {
-                width: this.width,
-                height: this.height
-              }
-            }
-          },
-
-          getTooltip: function(){
-            return {
-              id: this.id,
-              font: this.font.getFont(),
-              position: this.position.getPosition(),
-              dimension: this.dimension.getDimension()
-            }
-          }
-
-        },
+        // tooltip: {
+        //
+        //   id: id + '_tooltip',
+        //   // Id of the tooltip element
+        //   setId: function(i){
+        //     this.id = i + '_tooltip';
+        //
+        //     return this;
+        //   },
+        //   getId: function(){
+        //     return this.id;
+        //   },
+        //   getHashId: function(){
+        //     return '#' + this.id;
+        //   },
+        //
+        //   opacity: 1,
+        //   setOpacity: function(o){
+        //     this.opacity = o;
+        //
+        //     return this;
+        //   },
+        //
+        //   isActive: false,
+        //   setActive: function(a){
+        //     this.isActive = a;
+        //
+        //     return this;
+        //   },
+        //
+        //   nameText: function(d){},
+        //   setNameText: function(nt){
+        //     this.nameText = nt;
+        //
+        //     return this;
+        //   },
+        //
+        //   valueText: function(d){},
+        //   setValueText: function(vt){
+        //     this.valueText = vt;
+        //
+        //     return this;
+        //   },
+        //
+        //   font: {
+        //
+        //     family: "'Arial', Helvetica, sans-serif",
+        //     // Font family used to display tooltip text
+        //     setFamily: function(f){
+        //       this.family = f;
+        //       return this;
+        //     },
+        //     getFamily: function(){
+        //       return this.family;
+        //     },
+        //
+        //     size: 14,
+        //     // Font size to display tooltip text
+        //     setSize: function(s){
+        //       this.size = s;
+        //
+        //       return this;
+        //     },
+        //     getSize: function(){
+        //       return this.size;
+        //     },
+        //
+        //     sizeType: "px",
+        //     // Font size type, either 'px','em' or '%'
+        //     setSizeType: function(st){
+        //       this.sizeType = st;
+        //
+        //       return this;
+        //     },
+        //     getSizeType: function(){
+        //       return this.sizeType;
+        //     },
+        //
+        //     variant: "normal",
+        //     // Font variant, either 'normal' or 'small-caps'
+        //     setVariant: function(v){
+        //       this.variant = v;
+        //
+        //       return this;
+        //     },
+        //     getVariant: function(){
+        //       return this.variant;
+        //     },
+        //
+        //     weight: "normal",
+        //     // Font weight, either 'normal', 'bold', 'bolder', 'lighter' or number-value
+        //     setWeight: function(w){
+        //       this.weight = w;
+        //
+        //       return this;
+        //     },
+        //     getWeight: function(){
+        //       return this.weight;
+        //     },
+        //
+        //     style: "normal",
+        //     // Font style, either 'normal', 'italic' or 'oblique'
+        //     setStyle: function(s){
+        //       this.style = s;
+        //
+        //       return this;
+        //     },
+        //     getStyle: function(){
+        //       return this.style;
+        //     },
+        //
+        //     // Returns all properties of this font
+        //     getFont: function(){
+        //       return {
+        //         family: this.family,
+        //         size: this.size,
+        //         sizeType: this.sizeType,
+        //         variant: this.variant,
+        //         weight: this.weight,
+        //         style: this.style
+        //       }
+        //     }
+        //
+        //   },
+        //
+        //   position: {
+        //
+        //     x: 281.25,
+        //     setX: function(x){
+        //       this.x = x;
+        //
+        //       return this;
+        //     },
+        //     getX: function(){
+        //       return this.x;
+        //     },
+        //
+        //     y: 30,
+        //     setY: function(y){
+        //       this.y = y;
+        //
+        //       return this;
+        //     },
+        //     getY: function(){
+        //       return this.y;
+        //     },
+        //
+        //     dx: null,
+        //     setDX: function(dX){
+        //       this.dx = dX;
+        //
+        //       return this;
+        //     },
+        //     getDX: function(){
+        //       return this.dx;
+        //     },
+        //
+        //     dy: null,
+        //     setDY: function(dY){
+        //       this.dy = dY;
+        //
+        //       return this;
+        //     },
+        //     getDY: function(){
+        //       return this.dy;
+        //     },
+        //
+        //     nameX: 4,
+        //     setNameX: function(nx){
+        //       this.nameX = nx;
+        //
+        //       return this;
+        //     },
+        //     getNameX: function(){
+        //       return this.nameX;
+        //     },
+        //
+        //     nameY: 14,
+        //     setNameY: function(ny){
+        //       this.nameY = ny;
+        //
+        //       return this;
+        //     },
+        //     getNameY: function(){
+        //       return this.nameY;
+        //     },
+        //
+        //     valueX: 4,
+        //     setValueX: function(vx){
+        //       this.valueX = vx;
+        //
+        //       return this;
+        //     },
+        //     getValueX: function(){
+        //       return this.valueX;
+        //     },
+        //     valueY: 31,
+        //     setValueY: function(vy){
+        //       this.valueY = vy;
+        //
+        //       return this;
+        //     },
+        //     getValueY: function(){
+        //       return this.valueY;
+        //     },
+        //
+        //     // Returns all position properties
+        //     getPosition: function(){
+        //       return {
+        //         x: this.x,
+        //         y: this.y,
+        //         dx: this.dx,
+        //         dy: this.dy
+        //       }
+        //     }
+        //
+        //   },
+        //
+        //   dimension: {
+        //
+        //     width: 150,
+        //     // Width of tooltip rectangle
+        //     setWidth: function(w){
+        //       this._width = w;
+        //
+        //       return this;
+        //     },
+        //     getWidth: function(){
+        //       return this._width;
+        //     },
+        //
+        //     height: 35,
+        //     // Height of tooltip rectangle
+        //     setHeight: function(h){
+        //       this.height = h;
+        //
+        //       return this;
+        //     },
+        //     getHeight: function(){
+        //       return this.height;
+        //     },
+        //
+        //     // Returns all dimension properties
+        //     getDimension: function(){
+        //       return {
+        //         width: this._width,
+        //         height: this.height
+        //       }
+        //     }
+        //   },
+        //
+        //   getTooltip: function(){
+        //     return {
+        //       id: this.id,
+        //       font: this.font.getFont(),
+        //       position: this.position.getPosition(),
+        //       dimension: this.dimension.getDimension()
+        //     }
+        //   }
+        //
+        // },
+        tooltip: true,
+        tooltipId: '',
 
         title: {
 
@@ -814,35 +749,14 @@
 
         },
 
-        // Events on entire chart
         events: {
           onClick: function(d){},
-          setOnClick: function(f){
-            this.onClick = f;
-
-            return this;
-          },
 
           onMouseOver: function(d){},
-          setOnMouseOver: function(f){
-            this.onMouseOver = f;
-
-            return this;
-          },
 
           onMouseEnter: function(d){},
-          setOnMouseEnter: function(f){
-            this.onMouseEnter = f;
 
-            return this;
-          },
-
-          onMouseLeave: function(d){},
-          setOnMouseLeave: function(f){
-            this.onMouseLeave = f;
-
-            return this;
-          },
+          onMouseLeave: function(d){}
         },
 
         color: d3.scale.ordinal()
@@ -871,19 +785,19 @@
         arcs: null,
 
         display: function(){
-          this.radius = Math.min(this.width, this.height) / 2;
+          this.radius = (Math.min(this._width, this.height)-20) / 2;
 
           this.pie = d3.layout.pie()
             .value(function(d) { return d.value; })
             .sort(null);
 
           this.arc = d3.svg.arc()
-            .innerRadius(this.radius - this.chart.dimension.centerRadius)
-            .outerRadius(this.chart.dimension.radius);
+            .innerRadius(0)
+            .outerRadius(this.radius);
 
           var offset = 0;
           if(this.chart.font.getSizeType() === "px"){
-            offset = (this.chart.font.getSize() - 20) / 2 * 15;
+            offset = (this.chart.font.getSize() - 20) / 2 * 20;
           }
           this.labelArc = d3.svg.arc()
             .outerRadius(this.radius - 40 - offset)
@@ -894,20 +808,16 @@
           }
 
           // Create svg container
-          this.svg = d3.select('#' + this.getContainer()).append("svg")
-              .attr("width", this.width)
-              .attr("height", this.height);
+          this.svg = d3.select('#' + this.container).append("svg")
+              .attr("width", this.radius * 2 + 10)
+              .attr("height", this.radius * 2 + 10);
 
           // Create chart container
           this.g_chart = this.svg.append("g")
-              .attr("transform", "translate(" + this.chart.position.getX() + "," + this.chart.position.getY() + ")")
+              .attr("transform", "translate(" + (this.radius + 5) + ", " + (this.radius + 5) + ")")
               .attr("dx", this.chart.position.getDX())
               .attr("dy", this.chart.position.getDY())
-              .attr("id", this.chart.getId())
-              .on("mouseover", this.events.onMouseOver)
-              .on("mouseenter", this.events.onMouseEnter)
-              .on("mouseout", this.events.onMouseLeave)
-              .on("click", this.events.onClick);
+              .attr("id", this.chart.getId());
 
           // Check if tooltip is set to active
           if(this.tooltip.isActive){
@@ -950,35 +860,62 @@
         },
 
         update: function(){
+            var tooltip = this.tooltip;
+            var tooltip_id = this.tooltipId;
+
+            this.events.onMouseOver = function(d){
+              var angle = d.endAngle - ( (d.endAngle - d.startAngle) / 2 );
+              var x = Math.sin(angle) * 5;
+              var y = - Math.cos(angle) * 5;
+              this.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+
+              if(tooltip){
+                var d_ = d;
+                this.onmousemove = function(e){
+                  var tooltip = document.getElementById(tooltip_id);
+                  tooltip.style.display = 'block';
+                  tooltip.style.top = e.clientY + 15;
+                  tooltip.style.left = e.clientX + 15;
+                  tooltip.innerHTML = d.data.name + ' - ' + d.value;
+                }
+              }
+            }
+
+            this.events.onMouseLeave = function(d){
+              this.setAttribute('transform', '');
+
+              if(tooltip){
+                document.getElementById(tooltip_id).style.display = 'none';
+              }
+            }
 
             color = this.color;
 
-            this.svg.select(this.title.getHashId())
-              .style("font-family", this.title.font.getFamily())
-              .style("font-size", this.title.font.getSize() + this.title.font.getSizeType())
-              .style("font-variant", this.title.font.getVariant())
-              .style("font-style", this.title.font.getStyle())
-              .style("font-weight", this.title.font.getWeight())
-              .text(this.title.textFunc);
+            // this.svg.select(this.title.getHashId())
+            //   .style("font-family", this.title.font.getFamily())
+            //   .style("font-size", this.title.font.getSize() + this.title.font.getSizeType())
+            //   .style("font-variant", this.title.font.getVariant())
+            //   .style("font-style", this.title.font.getStyle())
+            //   .style("font-weight", this.title.font.getWeight())
+            //   .text(this.title.textFunc);
 
             // Removed unused tags
             this.svg.selectAll('.arc').each(function(){
                 if(!d3.select(this).select('path')[0][0])
                   d3.select(this).remove();
               });
-
             var data0 = this.arcs.length != 0 ? this.arcs.data() : this.pie([]),
-                data1 = this.pie(this.data);
+                data1 = this.pie(this._data);
 
             this.arcs = this.arcs.data(data1, key);
 
             var g = this.arcs.enter()
               .append("g")
                 .attr("class", "arc")
-                .on("click", this.chart.events.onClick)
-                .on("mouseover", this.chart.events.onMouseOver)
-                .on("mouseenter", this.chart.events.onMouseEnter)
-                .on("mouseout", this.chart.events.onMouseLeave);
+                .on("click", this.events.onClick)
+                .on("mouseover", this.events.onMouseOver)
+                .on("mouseenter", this.events.onMouseEnter)
+                .on("mouseout", this.events.onMouseLeave);
 
             var arc = this.arc;
             g.append("path")
@@ -1101,14 +1038,32 @@
 
         delete: function(){
           this.svg = null;
-          d3.select('#' + this.id).select("svg").remove();
+          d3.select('#' + this.container).select("svg").remove();
         },
 
         restart: function(){
           this.delete();
           this.display();
         }
-      }.setWidth(450).setHeight(300)
+      }
+
+      if(container) chart.setContainer(container);
+      else chart.setContainer();
+
+      if(document.getElementById(container))
+        window.addEventListener('resize', function(){
+          chart.setHeight(document.getElementById(container).offsetHeight);
+          chart.setWidth(document.getElementById(container).offsetWidth);
+          chart.restart();
+        });
+      else {
+        window.addEventListener('resize', function(){
+          chart.setWidth(document.getElementsByTagName('body')[0].clientWidth);
+          chart.restart();
+        });
+      }
+
+      return chart;
     },
     randomId: function(){
       var id = 'A';
