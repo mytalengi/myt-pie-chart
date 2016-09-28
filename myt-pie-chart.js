@@ -174,89 +174,6 @@
 
           },
 
-          position: {
-
-            x: 150,
-            setX: function(x){
-              this.x = x;
-              return this;
-            },
-            getX: function(){
-              return this.x;
-            },
-
-            y: 150,
-            setY: function(y){
-              this.y = y;
-
-              return this;
-            },
-            getY: function(){
-              return this.y;
-            },
-
-            dx: null,
-            setDX: function(dX){
-              this.dx = dX;
-
-              return this;
-            },
-            getDX: function(){
-              return this.dx;
-            },
-
-            dy: null,
-            setDY: function(dY){
-              this.dy = dY;
-
-              return this;
-            },
-            getDY: function(){
-              return this.dy;
-            },
-
-            // Returns all position properties
-            getPosition: function(){
-              return {
-                x: this.x,
-                y: this.y,
-                dx: this.dx,
-                dy: this.dy
-              }
-            }
-
-          },
-
-          dimension: {
-
-            radius: 150,
-            // Width of tooltip rectangle
-            setRadius: function(r){
-              this.radius = r;
-
-              return this;
-            },
-            getRadius: function(){
-              return this.radius;
-            },
-
-            centerRadius: 150,
-            setCenterRadius: function(cr){
-              this.centerRadius = cr;
-
-              return this;
-            },
-
-            // Returns all dimension properties
-            getDimension: function(){
-              return {
-                radius: this.radius,
-                centerRadius: this.centerRadius
-              }
-            }
-
-          },
-
           label: {
             active: true,
             setActive: function(a){
@@ -282,7 +199,7 @@
             },
 
             position: {
-              dx: "-1.5em",
+              dx: "-2.5em",
               dy: "0em"
             },
 
@@ -310,443 +227,12 @@
 
         },
 
-        // tooltip: {
-        //
-        //   id: id + '_tooltip',
-        //   // Id of the tooltip element
-        //   setId: function(i){
-        //     this.id = i + '_tooltip';
-        //
-        //     return this;
-        //   },
-        //   getId: function(){
-        //     return this.id;
-        //   },
-        //   getHashId: function(){
-        //     return '#' + this.id;
-        //   },
-        //
-        //   opacity: 1,
-        //   setOpacity: function(o){
-        //     this.opacity = o;
-        //
-        //     return this;
-        //   },
-        //
-        //   isActive: false,
-        //   setActive: function(a){
-        //     this.isActive = a;
-        //
-        //     return this;
-        //   },
-        //
-        //   nameText: function(d){},
-        //   setNameText: function(nt){
-        //     this.nameText = nt;
-        //
-        //     return this;
-        //   },
-        //
-        //   valueText: function(d){},
-        //   setValueText: function(vt){
-        //     this.valueText = vt;
-        //
-        //     return this;
-        //   },
-        //
-        //   font: {
-        //
-        //     family: "'Arial', Helvetica, sans-serif",
-        //     // Font family used to display tooltip text
-        //     setFamily: function(f){
-        //       this.family = f;
-        //       return this;
-        //     },
-        //     getFamily: function(){
-        //       return this.family;
-        //     },
-        //
-        //     size: 14,
-        //     // Font size to display tooltip text
-        //     setSize: function(s){
-        //       this.size = s;
-        //
-        //       return this;
-        //     },
-        //     getSize: function(){
-        //       return this.size;
-        //     },
-        //
-        //     sizeType: "px",
-        //     // Font size type, either 'px','em' or '%'
-        //     setSizeType: function(st){
-        //       this.sizeType = st;
-        //
-        //       return this;
-        //     },
-        //     getSizeType: function(){
-        //       return this.sizeType;
-        //     },
-        //
-        //     variant: "normal",
-        //     // Font variant, either 'normal' or 'small-caps'
-        //     setVariant: function(v){
-        //       this.variant = v;
-        //
-        //       return this;
-        //     },
-        //     getVariant: function(){
-        //       return this.variant;
-        //     },
-        //
-        //     weight: "normal",
-        //     // Font weight, either 'normal', 'bold', 'bolder', 'lighter' or number-value
-        //     setWeight: function(w){
-        //       this.weight = w;
-        //
-        //       return this;
-        //     },
-        //     getWeight: function(){
-        //       return this.weight;
-        //     },
-        //
-        //     style: "normal",
-        //     // Font style, either 'normal', 'italic' or 'oblique'
-        //     setStyle: function(s){
-        //       this.style = s;
-        //
-        //       return this;
-        //     },
-        //     getStyle: function(){
-        //       return this.style;
-        //     },
-        //
-        //     // Returns all properties of this font
-        //     getFont: function(){
-        //       return {
-        //         family: this.family,
-        //         size: this.size,
-        //         sizeType: this.sizeType,
-        //         variant: this.variant,
-        //         weight: this.weight,
-        //         style: this.style
-        //       }
-        //     }
-        //
-        //   },
-        //
-        //   position: {
-        //
-        //     x: 281.25,
-        //     setX: function(x){
-        //       this.x = x;
-        //
-        //       return this;
-        //     },
-        //     getX: function(){
-        //       return this.x;
-        //     },
-        //
-        //     y: 30,
-        //     setY: function(y){
-        //       this.y = y;
-        //
-        //       return this;
-        //     },
-        //     getY: function(){
-        //       return this.y;
-        //     },
-        //
-        //     dx: null,
-        //     setDX: function(dX){
-        //       this.dx = dX;
-        //
-        //       return this;
-        //     },
-        //     getDX: function(){
-        //       return this.dx;
-        //     },
-        //
-        //     dy: null,
-        //     setDY: function(dY){
-        //       this.dy = dY;
-        //
-        //       return this;
-        //     },
-        //     getDY: function(){
-        //       return this.dy;
-        //     },
-        //
-        //     nameX: 4,
-        //     setNameX: function(nx){
-        //       this.nameX = nx;
-        //
-        //       return this;
-        //     },
-        //     getNameX: function(){
-        //       return this.nameX;
-        //     },
-        //
-        //     nameY: 14,
-        //     setNameY: function(ny){
-        //       this.nameY = ny;
-        //
-        //       return this;
-        //     },
-        //     getNameY: function(){
-        //       return this.nameY;
-        //     },
-        //
-        //     valueX: 4,
-        //     setValueX: function(vx){
-        //       this.valueX = vx;
-        //
-        //       return this;
-        //     },
-        //     getValueX: function(){
-        //       return this.valueX;
-        //     },
-        //     valueY: 31,
-        //     setValueY: function(vy){
-        //       this.valueY = vy;
-        //
-        //       return this;
-        //     },
-        //     getValueY: function(){
-        //       return this.valueY;
-        //     },
-        //
-        //     // Returns all position properties
-        //     getPosition: function(){
-        //       return {
-        //         x: this.x,
-        //         y: this.y,
-        //         dx: this.dx,
-        //         dy: this.dy
-        //       }
-        //     }
-        //
-        //   },
-        //
-        //   dimension: {
-        //
-        //     width: 150,
-        //     // Width of tooltip rectangle
-        //     setWidth: function(w){
-        //       this._width = w;
-        //
-        //       return this;
-        //     },
-        //     getWidth: function(){
-        //       return this._width;
-        //     },
-        //
-        //     height: 35,
-        //     // Height of tooltip rectangle
-        //     setHeight: function(h){
-        //       this.height = h;
-        //
-        //       return this;
-        //     },
-        //     getHeight: function(){
-        //       return this.height;
-        //     },
-        //
-        //     // Returns all dimension properties
-        //     getDimension: function(){
-        //       return {
-        //         width: this._width,
-        //         height: this.height
-        //       }
-        //     }
-        //   },
-        //
-        //   getTooltip: function(){
-        //     return {
-        //       id: this.id,
-        //       font: this.font.getFont(),
-        //       position: this.position.getPosition(),
-        //       dimension: this.dimension.getDimension()
-        //     }
-        //   }
-        //
-        // },
         tooltip: true,
-        tooltipId: '',
+        tooltipText: function(d){
+          if(d.data.label)
+            return '<p style="margin: 0">' + d.data.label + '</p><p style="margin: 0; text-align: right">' + d.data.value + '</p>';
 
-        title: {
-
-          id: id + '_title',
-          // Id of the tooltip element
-          setId: function(i){
-            this.id = i + '_title';
-
-            return this;
-          },
-          getId: function(){
-            return this.id;
-          },
-          getHashId: function(){
-            return '#' + this.id;
-          },
-
-          isActive: false,
-          setActive: function(a){
-            this.isActive = a;
-
-            return this;
-          },
-
-          textFunc: function(d){},
-          setTextFunc: function(tf){
-            this.textFunc = tf;
-
-            return this;
-          },
-
-          font: {
-
-            family: "'Arial', Helvetica, sans-serif",
-            // Font family used to display tooltip text
-            setFamily: function(f){
-              this.family = f;
-              return this;
-            },
-            getFamily: function(){
-              return this.family;
-            },
-
-            size: 14,
-            // Font size to display tooltip text
-            setSize: function(s){
-              this.size = s;
-
-              return this;
-            },
-            getSize: function(){
-              return this.size;
-            },
-
-            sizeType: "px",
-            // Font size type, either 'px','em' or '%'
-            setSizeType: function(st){
-              this.sizeType = st;
-
-              return this;
-            },
-            getSizeType: function(){
-              return this.sizeType;
-            },
-
-            variant: "normal",
-            // Font variant, either 'normal' or 'small-caps'
-            setVariant: function(v){
-              this.variant = v;
-
-              return this;
-            },
-            getVariant: function(){
-              return this.variant;
-            },
-
-            weight: "normal",
-            // Font weight, either 'normal', 'bold', 'bolder', 'lighter' or number-value
-            setWeight: function(w){
-              this.weight = w;
-
-              return this;
-            },
-            getWeight: function(){
-              return this.weight;
-            },
-
-            style: "normal",
-            // Font style, either 'normal', 'italic' or 'oblique'
-            setStyle: function(s){
-              this.style = s;
-
-              return this;
-            },
-            getStyle: function(){
-              return this.style;
-            },
-
-            // Returns all properties of this font
-            getFont: function(){
-              return {
-                family: this.family,
-                size: this.size,
-                sizeType: this.sizeType,
-                variant: this.variant,
-                weight: this.weight,
-                style: this.style
-              }
-            }
-
-          },
-
-          position: {
-
-            x: 100,
-            setX: function(x){
-              this.x = x;
-
-              return this;
-            },
-            getX: function(){
-              return this.x;
-            },
-
-            y: 100,
-            setY: function(y){
-              this.y = y;
-
-              return this;
-            },
-            getY: function(){
-              return this.y;
-            },
-
-            dx: null,
-            setDX: function(dX){
-              this.dx = dX;
-
-              return this;
-            },
-            getDX: function(){
-              return this.dx;
-            },
-
-            dy: null,
-            setDY: function(dY){
-              this.dy = dY;
-
-              return this;
-            },
-            getDY: function(){
-              return this.dy;
-            },
-
-            // Returns all position properties
-            getPosition: function(){
-              return {
-                x: this.x,
-                y: this.y,
-                dx: this.dx,
-                dy: this.dy
-              }
-            }
-
-          },
-
-          getTooltip: function(){
-            return {
-              id: this.id,
-              font: this.font.getFont(),
-              position: this.position.getPosition()
-            }
-          }
-
+          return '<p style="margin: 0">' + d.data.name + '</p><p style="margin: 0; text-align: right">' + d.data.value + '</p>';
         },
 
         events: {
@@ -803,6 +289,12 @@
             .outerRadius(this.radius - 40 - offset)
             .innerRadius(this.radius - 130);
 
+          // Check if tooltip is set to active
+          if(this.tooltip){
+            // Create tooltip container
+            document.getElementById(this.container).innerHTML += "<div id='" + this.container + "_tooltip' style='position: absolute; display: none'></div>";
+          }
+
           if(this.svg != null){
             return this.update();
           }
@@ -810,94 +302,49 @@
           // Create svg container
           this.svg = d3.select('#' + this.container).append("svg")
               .attr("width", this.radius * 2 + 10)
-              .attr("height", this.radius * 2 + 10);
+              .attr("height", this.radius * 2 + 10)
+              .attr("id", this.container + '_chart');
 
           // Create chart container
           this.g_chart = this.svg.append("g")
-              .attr("transform", "translate(" + (this.radius + 5) + ", " + (this.radius + 5) + ")")
-              .attr("dx", this.chart.position.getDX())
-              .attr("dy", this.chart.position.getDY())
-              .attr("id", this.chart.getId());
+              .attr("transform", "translate(" + (this.radius + 5) + ", " + (this.radius + 5) + ")");
 
-          // Check if tooltip is set to active
-          if(this.tooltip.isActive){
-
-            // Create tooltip container
-            this.g_tooltip = this.svg.append("g")
-              .attr("transform", "translate(" + this.tooltip.position.getX() + "," + this.tooltip.position.getY() + ")")
-              .attr("dx", this.tooltip.position.getDX())
-              .attr("dy", this.tooltip.position.getDY())
-              .attr("width", this.tooltip.dimension.getWidth())
-              .attr("height", this.tooltip.dimension.getHeight())
-              .attr("id", this.tooltip.getId());
-
-              this.g_tooltip.append("rect")
-                  .attr("width", this.tooltip.dimension.getWidth())
-                  .attr("height", this.tooltip.dimension.getHeight());
-
-              this.g_tooltip.append("text")
-                  .attr("dx", this.tooltip.position.getNameX())
-                  .attr("dy", this.tooltip.position.getNameY())
-                  .attr("id", this.tooltip.getId() + "_name");
-
-              this.g_tooltip.append("text")
-                  .attr("dx", this.tooltip.position.getValueX())
-                  .attr("dy", this.tooltip.position.getValueY())
-                  .attr("id", this.tooltip.getId() + "_value");
-          }
-
-          if(this.title.isActive){
-            // Create title
-            this.svg.append("text")
-              .attr("transform", "translate(" + this.title.position.getX() + "," + this.title.position.getY() + ")")
-              .attr("dx", this.title.position.getDX())
-              .attr("dx", this.title.position.getDY())
-              .attr("id", this.title.getId());
-          }
           this.arcs = this.svg.select("g").selectAll(".arc");
+
+          var tooltip = this.tooltip;
+          var tooltipText = this.tooltipText;
+          var container = this.container;
+
+          this.events.onMouseOver = function(d){
+            var angle = d.endAngle - ( (d.endAngle - d.startAngle) / 2 );
+            var x = Math.sin(angle) * 5;
+            var y = - Math.cos(angle) * 5;
+            this.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+
+            if(tooltip){
+              this.onmousemove = function(e){
+                var t = document.getElementById(container + '_tooltip');
+                t.style.display = 'block';
+                t.style.top = e.clientY + 15;
+                t.style.left = e.clientX + 15;
+                t.innerHTML = tooltipText(d);
+              }
+            }
+          }
+
+          this.events.onMouseLeave = function(d){
+            this.setAttribute('transform', '');
+
+            if(tooltip){
+              document.getElementById(container + '_tooltip').style.display = 'none';
+            }
+          }
 
           this.update();
         },
 
         update: function(){
-            var tooltip = this.tooltip;
-            var tooltip_id = this.tooltipId;
-
-            this.events.onMouseOver = function(d){
-              var angle = d.endAngle - ( (d.endAngle - d.startAngle) / 2 );
-              var x = Math.sin(angle) * 5;
-              var y = - Math.cos(angle) * 5;
-              this.setAttribute('transform', 'translate(' + x + ',' + y + ')');
-
-              if(tooltip){
-                var d_ = d;
-                this.onmousemove = function(e){
-                  var tooltip = document.getElementById(tooltip_id);
-                  tooltip.style.display = 'block';
-                  tooltip.style.top = e.clientY + 15;
-                  tooltip.style.left = e.clientX + 15;
-                  tooltip.innerHTML = d.data.name + ' - ' + d.value;
-                }
-              }
-            }
-
-            this.events.onMouseLeave = function(d){
-              this.setAttribute('transform', '');
-
-              if(tooltip){
-                document.getElementById(tooltip_id).style.display = 'none';
-              }
-            }
-
             color = this.color;
-
-            // this.svg.select(this.title.getHashId())
-            //   .style("font-family", this.title.font.getFamily())
-            //   .style("font-size", this.title.font.getSize() + this.title.font.getSizeType())
-            //   .style("font-variant", this.title.font.getVariant())
-            //   .style("font-style", this.title.font.getStyle())
-            //   .style("font-weight", this.title.font.getWeight())
-            //   .text(this.title.textFunc);
 
             // Removed unused tags
             this.svg.selectAll('.arc').each(function(){
