@@ -292,7 +292,7 @@
           // Check if tooltip is set to active
           if(this.tooltip){
             // Create tooltip container
-            document.getElementById(this.container).innerHTML += "<div id='" + this.container + "_tooltip' style='position: absolute; display: none'></div>";
+            document.getElementById(this.container).innerHTML += "<div id='" + this.container + "_tooltip' style='position: fixed; display: none'></div>";
           }
 
           if(this.svg != null){
@@ -325,8 +325,8 @@
               this.onmousemove = function(e){
                 var t = document.getElementById(container + '_tooltip');
                 t.style.display = 'block';
-                t.style.top = e.clientY + 15;
-                t.style.left = e.clientX + 15;
+                t.style.top = e.clientY + 15 + 'px';
+                t.style.left = e.clientX + 15 + 'px';
                 t.innerHTML = tooltipText(d);
               }
             }
